@@ -1,4 +1,16 @@
 <template>
+  <SectionSeparator class="title" title="Nuestros productos" subtitle="Accede a todos nuestros productos" />
+  <div class="row d-flex justify-end">
+    <v-col cols="12" md="3">
+      <v-text-field
+      label="Buscar producto"
+      v-model="text"
+      hide-details="auto"
+      append-inner-icon="mdi-magnify"
+      @click:append-inner="handleInput"
+    ></v-text-field>
+    </v-col>
+  </div>
   <v-container v-if="loading" class="d-flex justify-center">
     <v-progress-circular
       :size="50"
@@ -7,18 +19,18 @@
     ></v-progress-circular>
   </v-container>
     <v-container v-else fluid>
-      <v-row class="text-center" v-if="arrayProductos.length != 0">
+      <v-row class="text-center" v-if="paginatedProductos.length != 0">
         <v-col
           class="card-effect-zoom"
           cols="12"
           md="4"
           lg="3"
-          v-for="(item, index) in arrayProductos"
+          v-for="(item, index) in paginatedProductos"
           :key="index"
         >
           <v-card  style="background: rgba(20, 77, 131, 0.637);" variant="outlined" max-width="250" class="mx-auto" >
             <v-chip class="ma-2" style="left: 35%; background-color: rgb(4, 219, 137);" label>
-              <v-icon start icon="mdi-cash"></v-icon>
+              <v-icon start icon="mdi-currency-usd"></v-icon>
               {{ item.total_pay }}
             </v-chip>
   
@@ -37,6 +49,9 @@
               </v-btn>
             </v-card-actions>
           </v-card>
+        </v-col>
+        <v-col cols="12">
+          <v-pagination prev-icon="mdi-menu-left" next-icon="mdi-menu-right" v-model="current" :length="totalPages"></v-pagination>
         </v-col>
       </v-row>
       <div v-else class="d-flex justify-center">
@@ -63,13 +78,23 @@
   </template>
   
   <script setup lang="ts">
-  import { ref, onMounted } from 'vue'
+  import { ref, onMounted, computed } from 'vue'
   import axios from 'axios'
   
   const arrayProductos = ref([])
   const loading = ref(true)
-  
-  
+  const text = ref('')
+
+  const current = ref(1) // Página actual, inicialmente establecida en 1
+  const pageSize = 8 // Tamaño de página deseado
+
+
+  function handleInput(newText) {
+    text.value = newText; // Actualizar el valor de búsqueda en el componente padre
+    console.log(newText);
+    
+  }
+
   onMounted(() => {
     axios.get('/GetProduct')
     .then((response) => {
@@ -85,6 +110,32 @@
     selectedProduct.value = arrayProductos.value[index]
     dialog.value = true
   }
+
+  const paginatedProductos = computed(() => {
+    const startIndex = (current.value - 1) * pageSize;
+    const endIndex = startIndex + pageSize
+
+    if (Array.isArray(arrayProductos.value)) {
+      let filtredProductos = arrayProductos.value.slice();
+
+      // aplicamos el filtro por nombre
+
+      filtredProductos = filtredProductos.filter(producto => 
+        producto.nombre.toLowerCase().match(text.value.toLowerCase())
+      )
+
+      return filtredProductos.slice(startIndex, endIndex)
+    } else{
+      return []
+    }
+  })
+
+// Propiedad computada para obtener el número total de páginas
+const totalPages = computed(() => {
+  const totalItems = arrayProductos.value.length // Utiliza arrayProductos.value.length en lugar de arrayProductos.length
+  return Math.ceil(totalItems / pageSize)
+})
+
   
   </script>
   
