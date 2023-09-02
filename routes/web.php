@@ -51,7 +51,9 @@ Route::get('/GetProduct', [ProductoController::class, 'index']);
 ******************************************************************************/
 Route::post('/auth', [LoginController::class, 'login'])->name('auth');
 
-
+//Route::post('/actualizarProductos', [ProductoController::class, 'update']);
+Route::middleware(['web'])->post('/actualizarProductos', [ProductoController::class, 'update']);
+//Route::get('/actualizar', [ProductoController::class, 'index']);
 /*****************************************************************************
 *                                                                            *
 *                            Middleware + Rutas                              *
@@ -64,15 +66,11 @@ Route::group(['middleware'=>['auth']],function(){
     *                            Metodos Post                                    *
     *                                                                            *
     ******************************************************************************/
-    
+        Route::post('/eliminarProductos', [ProductoController::class, 'destroy']);
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout'); // SI EL USUARIO ESTA AUTENTICADO PUEDE CERRAR SESION
 
-    /*****************************************************************************
-    *                                                                            *
-    *                            Metodos Get                                     *
-    *                                                                            *
-    ******************************************************************************/
-
+        Route::get('/admin/productos', [ProductoController::class, 'index'])->name('productos');
+        
     /*****************************************************************************
     *                                                                            *
     *                            Rutas de Vistas                                 *
@@ -82,9 +80,9 @@ Route::group(['middleware'=>['auth']],function(){
             return view('dashboard');
         })->name('dashboard');
 
-        Route::get('/admin/test', function() {
+        Route::get('/admin/products', function() {
             return view('dashboard');
-        });
+        })->name('products');
 
 
     

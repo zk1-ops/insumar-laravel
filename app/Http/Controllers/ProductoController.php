@@ -15,55 +15,31 @@ class ProductoController extends Controller
     public function index()
     {
         $data  = Producto::all();
-
         return $data;
+        
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    
+    
+    public function update(Request $request)
     {
-        //
-    }
+        $productos = Producto::find($request->id);
+        $productos->nombre = $request->nombre;
+        $productos->envase = $request->envase;
+        $productos->descripcion = $request->descripcion;
+        $productos->total_play = $request->total_pay;
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+        $productos->save();
+        return $productos;
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        $productos = Producto::find($request->id);
+        $productos->delete();
+        
     }
 }
