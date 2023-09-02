@@ -27,9 +27,10 @@ class ProductoController extends Controller
         $productos->nombre = $request->nombre;
         $productos->envase = $request->envase;
         $productos->descripcion = $request->descripcion;
-        $productos->total_play = $request->total_pay;
+        $productos->total_pay = $request->total_pay;
 
         $productos->save();
+        
         return $productos;
     }
 

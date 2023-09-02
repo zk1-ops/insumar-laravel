@@ -9,6 +9,8 @@ class Producto extends Model
 {
     use HasFactory;
 
+    public $timestamps = false; // Will not modify the timestamps on save
+
     protected $table = 'productos';
 
     protected $fillable = [
@@ -16,7 +18,6 @@ class Producto extends Model
         'descripcion',
         'envase',
         'total_pay',
-        'created_at',
-        'updated_at'
+        'created_at'
     ];
 }

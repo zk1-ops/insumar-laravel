@@ -51,9 +51,7 @@ Route::get('/GetProduct', [ProductoController::class, 'index']);
 ******************************************************************************/
 Route::post('/auth', [LoginController::class, 'login'])->name('auth');
 
-//Route::post('/actualizarProductos', [ProductoController::class, 'update']);
-Route::middleware(['web'])->post('/actualizarProductos', [ProductoController::class, 'update']);
-//Route::get('/actualizar', [ProductoController::class, 'index']);
+
 /*****************************************************************************
 *                                                                            *
 *                            Middleware + Rutas                              *
@@ -66,10 +64,18 @@ Route::group(['middleware'=>['auth']],function(){
     *                            Metodos Post                                    *
     *                                                                            *
     ******************************************************************************/
+        Route::post('/actualizarProductos', [ProductoController::class, 'update']);
         Route::post('/eliminarProductos', [ProductoController::class, 'destroy']);
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout'); // SI EL USUARIO ESTA AUTENTICADO PUEDE CERRAR SESION
 
-        Route::get('/admin/productos', [ProductoController::class, 'index'])->name('productos');
+    /*****************************************************************************
+    *                                                                            *
+    *                           Metodos Get                                      *
+    *                                                                            *
+    ******************************************************************************/
+
+        Route::get('/admin/GetProductos', [ProductoController::class, 'index']);
+
         
     /*****************************************************************************
     *                                                                            *
