@@ -43,4 +43,14 @@ class ProductoController extends Controller
         $productos->delete();
         
     }
+
+    public function create(Request $request)
+    {
+        $productos = Producto::create([
+            'nombre' =>request('nombre'),
+            'descripcion' =>request('descripcion'),
+            'envase'=>request('envase'),
+            'total_pay'=>request('precio'),
+        ]);
+    }
 }
