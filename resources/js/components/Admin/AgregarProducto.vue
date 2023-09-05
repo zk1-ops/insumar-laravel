@@ -23,44 +23,59 @@
               <v-row>
                 <v-col cols="12" >
                   <v-text-field
-                  v-model="modelForm.nombre"
-                  variant="outlined"
-                  label="Nombre"></v-text-field>
+                    v-model="modelForm.nombre"
+                    variant="outlined"
+                    label="Nombre"
+                    :rules="[rules.required]"
+                  >
+                </v-text-field>
                 </v-col>
                 <v-col cols="12" >
                   <v-text-field
-                  v-model="modelForm.descripcion"
-                  variant="outlined"
-                  label="Descripcion"></v-text-field>
+                    v-model="modelForm.descripcion"
+                    variant="outlined"
+                    label="Descripcion"
+                    :rules="[rules.required]"
+                  >
+                  </v-text-field>
                 </v-col>
                 <v-col cols="12" >
                   <v-text-field
-                  v-model="modelForm.envase"
-                  variant="outlined"
-                  label="Envase"></v-text-field>
+                    v-model="modelForm.envase"
+                    variant="outlined"
+                    label="Envase"
+                    :rules="[rules.required]"
+                  >
+                </v-text-field>
                 </v-col>
                 <v-col cols="12" >
                   <v-text-field
-                  v-model="modelForm.precio"
-                  variant="outlined"
-                  label="Precio"></v-text-field>
+                    v-model="modelForm.precio"
+                    variant="outlined"
+                    label="Precio"
+                    :rules="[rules.required]"
+                  >
+                </v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-file-input :rules="[rules.required]" label="Subir Imagen Producto" ref="fileInput" v-model="modelForm.selectedFile" accept="image/*" variant="outlined"></v-file-input>
                 </v-col>
               </v-row>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn
-                  color="green-darken-1"
+                  color="red"
                   variant="text"
                   @click="dialogAddProd = false"
                 >
-                  Disagree
+                  Cerrar
                 </v-btn>
                 <v-btn
                   color="green-darken-1"
-                  variant="text"
+                  variant="flat"
                   type="submit"
                 >
-                  Agree
+                  Agregar
                 </v-btn>
               </v-card-actions>
             </v-form>
@@ -72,19 +87,52 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import axios from 'axios'
+import { rules } from '../../utils/input'
+import Swal from 'sweetalert2'
 
-function onCreate() {
-  axios.post('/agregarProducto', modelForm.value)
-}
 
 const dialogAddProd = ref(false)
-const loading = ref(false)  
-const userName = ref('')
 const modelForm = ref({
-  nombre:'',
-  descripcion:'',
-  envase:'',
-  precio:null,
+  nombre: '',
+  descripcion: '',
+  envase: '',
+  precio: null,
+  selectedFile: []
 })
 
+const arrayProductos = ref([])
+
+function traerProductos() {
+      axios.get('/admin/GetProductos')
+          .then((response) => {
+              arrayProductos.value = response.data 
+        })
+    }
+
+function onCreate() {
+  // Crea un objeto FormData y agrega el archivo seleccionado
+  const formData = new FormData();
+  formData.append('nombre', modelForm.value.nombre);
+  formData.append('descripcion', modelForm.value.descripcion);
+  formData.append('envase', modelForm.value.envase);
+  formData.append('precio', modelForm.value.precio);
+  formData.append('imagen', modelForm.value.selectedFile[0]);
+
+
+  axios.post('/agregarProducto', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data' // Configura el tipo de contenido para cargar archivos
+    }
+  }).then((response) => {
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Ha sido agregado correctamente',
+        showConfirmButton: false,
+        timer: 1500
+      })
+        window.location.reload();
+        dialogAddProd.value = false
+  })
+}
 </script>

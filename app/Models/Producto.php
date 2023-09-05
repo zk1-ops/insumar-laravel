@@ -18,6 +18,7 @@ class Producto extends Model
         'descripcion',
         'envase',
         'total_pay',
+        'image',
         'created_at'
     ];
 }

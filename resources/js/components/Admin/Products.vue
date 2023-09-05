@@ -9,9 +9,10 @@
                     <thead>
                       <tr>
                         <th scope="col">#</th>
+                        <th scope="col"></th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Envase</th>
-                        <th scope="col">Total_pay</th>
+                        <th scope="col">Precio producto</th>
                         <th scope="col">Acción</th>
                       </tr>
                     </thead>
@@ -19,6 +20,7 @@
                     
                       <tr v-for="(data, i) in arrayProductos">
                         <th scope="row">{{ data.id }}</th>
+                        <td><v-img :src="data.image" :width="90"></v-img></td>
                         <td>{{data.nombre}}</td>
                         <td>{{data.envase}}</td>
                         <td>{{data.total_pay }}</td>
@@ -49,6 +51,7 @@
                                 label="Nombre Producto"
                                 required
                                 hide-details
+                                :rules="[rules.required]"
                               ></v-text-field>
                             </v-col>
 
@@ -61,6 +64,7 @@
                                 label="Envase del producto"
                                 hide-details
                                 required
+                                :rules="[rules.required]"
                               ></v-text-field>
                             </v-col>
                             <v-col
@@ -72,13 +76,17 @@
                                 label="Costo del producto"
                                 hide-details
                                 required
+                                :rules="[rules.required]"
                               ></v-text-field>
                             </v-col>
                             <v-col
                               cols="12"
                               md="12"
                             >
-                            <v-textarea v-model="modelForm.descripcion" label="Descripcion del producto"></v-textarea>
+                            <v-textarea :rules="[rules.required]" v-model="modelForm.descripcion" label="Descripcion del producto"></v-textarea>
+                            </v-col>
+                            <v-col cols="12">
+                              <v-file-input :rules="[rules.required]" label="Subir Imagen Producto" ref="fileInput" v-model="modelForm.selectedFile" accept="image/*" variant="outlined"></v-file-input>
                             </v-col>
                           </v-row>
                         </v-container>
@@ -96,6 +104,7 @@
     import { ref, onMounted } from 'vue'
     import axios from 'axios'
     import Swal from 'sweetalert2'
+    import { rules } from '../../utils/input'
 
     const dialogAddProd = ref(false)
 
@@ -108,7 +117,8 @@
        nombre: '',
        descripcion: '',
        envase: '',
-       total_pay: ''
+       total_pay: '',
+       selectedFile: []
     })
 
     function traerProductos() {
@@ -146,7 +156,25 @@
   }
 
   function actualizarProducto() {    
-    axios.post('/actualizarProductos', modelForm.value).then(function response() {
+
+    const formData = new FormData();
+    formData.append('id', modelForm.value.id); // Asegúrate de incluir el ID del producto
+    formData.append('nombre', modelForm.value.nombre);
+    formData.append('descripcion', modelForm.value.descripcion);
+    formData.append('envase', modelForm.value.envase);
+    formData.append('total_pay', modelForm.value.total_pay);
+    
+    // Verifica si se ha seleccionado una nueva imagen
+    if (modelForm.value.selectedFile[0]) {
+      formData.append('imagen', modelForm.value.selectedFile[0]);
+    }
+
+    
+    axios.post('/actualizarProductos', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data' // Configura el tipo de contenido para cargar archivos
+      }
+    }).then(function response() {
       Swal.fire({
         position: 'top-end',
         icon: 'success',

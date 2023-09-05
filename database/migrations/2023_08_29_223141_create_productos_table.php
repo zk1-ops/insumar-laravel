@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('envase');
             $table->longText('image');
             $table->integer('total_pay');
-            $table->date('created_at')->default(now()); // Cambio a tipo de dato "date"
+            $table->date('created_at')->default(now());
 
 
         });
