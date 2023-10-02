@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('employees', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('idRol');
-            $table->string('name_first');
-            $table->string('name_last');
+            $table->string('first_name');
+            $table->string('last_name');
             $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();
@@ -24,14 +24,14 @@ return new class extends Migration
             $table->foreign('idRol')->references('id')->on('roles');
         });
 
-        DB::table('users')
+        DB::table('employees')
         ->insert(array(
             'id' => '1', 
             'idRol' => '1', 
-            'name_first' => 'Miguel', 
-            'name_last' => 'Gomez',  
-            'email' => 'gomezm@gmail.com', 
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'));
+            'first_name' => 'Admin', 
+            'last_name' => 'Demo',  
+            'email' => 'admin@demo.cl', 
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi')); // password
     }
 
     /**
@@ -39,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('employees');
     }
 };

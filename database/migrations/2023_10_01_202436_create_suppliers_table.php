@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('suppliers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
+            $table->string('business_name');
+            $table->string('contact_mail');
+            $table->string('contact_phone');
+            $table->string('city');
+            $table->string('address');
+            $table->timestamps();
         });
-
-        DB::table('roles')->insert([
-            ['name' => 'Administrador'],
-            ['name' => 'Moderador'],
-        ]);
     }
 
     /**
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('suppliers');
     }
 };

@@ -23,7 +23,7 @@
               <v-row>
                 <v-col cols="12" >
                   <v-text-field
-                    v-model="modelForm.nombre"
+                    v-model="modelForm.name"
                     variant="outlined"
                     label="Nombre"
                     :rules="[rules.required]"
@@ -32,7 +32,7 @@
                 </v-col>
                 <v-col cols="12" >
                   <v-text-field
-                    v-model="modelForm.descripcion"
+                    v-model="modelForm.description"
                     variant="outlined"
                     label="Descripcion"
                     :rules="[rules.required]"
@@ -41,7 +41,7 @@
                 </v-col>
                 <v-col cols="12" >
                   <v-text-field
-                    v-model="modelForm.envase"
+                    v-model="modelForm.container"
                     variant="outlined"
                     label="Envase"
                     :rules="[rules.required]"
@@ -50,7 +50,16 @@
                 </v-col>
                 <v-col cols="12" >
                   <v-text-field
-                    v-model="modelForm.precio"
+                    v-model="modelForm.stock"
+                    variant="outlined"
+                    label="Stock"
+                    :rules="[rules.required]"
+                  >
+                </v-text-field>
+                </v-col>
+                <v-col cols="12" >
+                  <v-text-field
+                    v-model="modelForm.price"
                     variant="outlined"
                     label="Precio"
                     :rules="[rules.required]"
@@ -93,10 +102,11 @@ import Swal from 'sweetalert2'
 
 const dialogAddProd = ref(false)
 const modelForm = ref({
-  nombre: '',
-  descripcion: '',
-  envase: '',
-  precio: null,
+  name: '',
+  description: '',
+  container: '',
+  stock: null,
+  price: null,
   selectedFile: []
 })
 
@@ -112,10 +122,11 @@ function traerProductos() {
 function onCreate() {
   // Crea un objeto FormData y agrega el archivo seleccionado
   const formData = new FormData();
-  formData.append('nombre', modelForm.value.nombre);
-  formData.append('descripcion', modelForm.value.descripcion);
-  formData.append('envase', modelForm.value.envase);
-  formData.append('precio', modelForm.value.precio);
+  formData.append('nombre', modelForm.value.name);
+  formData.append('descripcion', modelForm.value.description);
+  formData.append('envase', modelForm.value.container);
+  formData.append('stock', modelForm.value.stock);
+  formData.append('precio', modelForm.value.price);
   formData.append('imagen', modelForm.value.selectedFile[0]);
 
 

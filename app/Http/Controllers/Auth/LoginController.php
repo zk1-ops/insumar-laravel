@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 
-use App\Models\User;
+use App\Models\Employee;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
@@ -23,7 +23,7 @@ class LoginController extends Controller
     {
         $this->validateLogin($request);   
 
-       $exists = User::where('email', $request->email)
+       $exists = Employee::where('email', $request->email)
                      ->first();
         
        if(!$exists) { Session::put('email_message', 'E-mail incorrecto'); return redirect()->back(); }
@@ -57,5 +57,9 @@ class LoginController extends Controller
             'password' => 'required|string'
         ]);
 
+    }
+
+    public function dataUser(Request $request) {
+        return response()->json($request->user());
     }
 }

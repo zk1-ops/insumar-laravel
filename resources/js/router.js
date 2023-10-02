@@ -8,6 +8,7 @@ import Productos from './components/Productos/ShowProducts.vue'; // Importa tus 
 import AdminUsers from './components/Admin/User.vue'
 import AdminProducts from './components/Admin/Products.vue'
 import AdminDashboard from './components/Admin/Dashboard.vue'
+import AdminSuppliers from './components/Admin/Suppliers.vue'
 
 const routes = [
   {
@@ -35,6 +36,11 @@ const routes = [
     path: '/admin/products',
     component: AdminProducts,
     name: 'AdminProducts'
+  },
+  {
+    path: '/admin/suppliers',
+    component: AdminSuppliers,
+    name: 'AdminSuppliers'
   }
 ];
 

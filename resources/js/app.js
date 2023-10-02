@@ -37,7 +37,6 @@ import colors from 'vuetify/lib/util/colors'
 
 // Admin Components
 import AdminSidebar from './components/Admin/Sidebar.vue'
-
 import AdminDialogAddProductos from './components/Admin/AgregarProducto.vue'
 
 const vuetify = createVuetify({
@@ -52,7 +51,7 @@ const vuetify = createVuetify({
         HomeAboutUS,
         HomeContact,
         AdminSidebar,
-        AdminDialogAddProductos
+        AdminDialogAddProductos,
     },
     directives,
 

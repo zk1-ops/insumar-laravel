@@ -18,16 +18,15 @@
    <ul class="navbar-nav align-items-center right-nav-link">    
      <li class="nav-item">
        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
-         <span class="user-profile"><img src="https://via.placeholder.com/110x110" class="img-circle" alt="user avatar"></span>
+         <span class="user-profile"><img src="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png" class="img-circle" alt="user avatar"></span>
        </a>
        <ul class="dropdown-menu dropdown-menu-right">
         <li class="dropdown-item user-details">
          <a href="javaScript:void();">
             <div class="media">
-              <div class="avatar"><img class="align-self-start mr-3" src="https://via.placeholder.com/110x110" alt="user avatar"></div>
              <div class="media-body">
-             <h6 class="mt-2 user-title">Sarajhon Mccoy</h6>
-             <p class="user-subtitle">mccoy@example.com</p>
+             <h6 class="mt-2 user-title">{{ userData.first_name }} {{ userData.last_name }}</h6>
+             <p class="user-subtitle">{{ userData.email }}</p>
              </div>
             </div>
            </a>
@@ -61,3 +60,19 @@
     
    </div><!--End wrapper-->
  </template>
+
+
+<script setup lang="ts">
+import axios from 'axios';
+import { ref, onMounted } from 'vue'
+
+
+const userData = ref({})
+
+onMounted(() => {
+  axios.get('/admin/GetUser')
+          .then((response) => {
+            userData.value = response.data                               
+   })
+}) 
+</script>

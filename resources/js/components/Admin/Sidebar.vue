@@ -12,7 +12,7 @@
       <li>
         <router-link :to="{ name: 'AdminDashboard' }">
           <a>
-              <i class="zmdi zmdi-view"></i> <span>Dashboard</span>
+              <i class="zmdi zmdi-cloud"></i> <span>Dashboard</span>
           </a>
         </router-link>
       </li>
@@ -20,12 +20,33 @@
       <li>
         <router-link :to="{ name: 'AdminUsers' }">
         <a>
-          <i class="zmdi zmdi-account"></i> <span>Usuarios</span>
+          <i class="zmdi zmdi-account"></i> <span>Empleados</span>
         </a>
       </router-link>
       </li>
 
+      <li>
+        <router-link :to="{ name: 'AdminUsers' }">
+        <a>
+          <i class="zmdi zmdi-accounts"></i> <span>Clientes</span>
+        </a>
+      </router-link>
+      </li>
 
+      <li>
+        <router-link :to="{ name: 'AdminSuppliers' }">
+        <a>
+          <i class="zmdi zmdi-folder-person"></i> <span>Proveedores</span>
+        </a>
+      </router-link>
+      </li>
+      <li>
+        <router-link :to="{ name: 'AdminUsers' }">
+        <a>
+          <i class="zmdi zmdi-archive"></i> <span>Ventas</span>
+        </a>
+      </router-link>
+      </li>
       <li>
         <router-link :to="{ name: 'AdminProducts' }">
         <a>

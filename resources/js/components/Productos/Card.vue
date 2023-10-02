@@ -16,14 +16,14 @@
         v-for="(item, index) in arrayProductos"
         :key="index"
       >
-        <v-card  style="background: rgba(20, 77, 131, 0.637);" variant="outlined" max-width="250" class="mx-auto" >
+        <v-card style="background: rgba(20, 77, 131, 0.637);" variant="outlined" max-width="250" class="mx-auto" >
           <v-chip class="ma-2" style="left: 35%; background-color: rgb(4, 219, 137);" label>
             <v-icon start icon="mdi-currency-usd"></v-icon>
-            {{ item.total_pay }}
+            {{ item.price }}
           </v-chip>
 
           <v-img :src="item.image" height="200" contain class="align-self-center" />
-          <v-card-title class="text-center text-white">{{ item.nombre }}</v-card-title>
+          <v-card-title class="text-center text-white">{{ item.name }}</v-card-title>
           <v-card-actions class="text-center">
             <v-btn
               color="primary"
@@ -50,9 +50,9 @@
       <v-card max-width="350" class="mx-auto rounded-xl">
         <br>
         <v-img :src="selectedProduct.image" height="250" />
-        <v-card-title class="text-center">{{ selectedProduct.nombre }}</v-card-title>
-        <v-card-subtitle class="text-center">Tipo de envase: {{ selectedProduct.envase }}</v-card-subtitle>
-        <v-card-text class="text-center">{{ selectedProduct.descripcion }}</v-card-text>
+        <v-card-title class="text-center">{{ selectedProduct.name }}</v-card-title>
+        <v-card-subtitle class="text-center">Tipo de envase: {{ selectedProduct.container }}</v-card-subtitle>
+        <v-card-text class="text-center">{{ selectedProduct.description }}</v-card-text>
         
         <v-card-actions>
           <v-btn  class="mx-auto" variant="tonal" color="primary" text @click="dialog = false">Cerrar</v-btn>
@@ -75,12 +75,12 @@ const loading = ref(true)
 onMounted(() => {
   axios.get('/GetProduct')
   .then((response) => {
-     arrayProductos.value = response.data 
+      arrayProductos.value = response.data.filter(item => item.show_product === 1);
      loading.value = false
 
      arrayProductos.value.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
      arrayProductos.value.splice(maxProductsToShow);
-       
+           
   })
 })
 

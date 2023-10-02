@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Auth\LoginController;
 
 
@@ -41,7 +41,7 @@ Route::get('/token', function () {
     return csrf_token(); 
 });
 
-Route::get('/GetProduct', [ProductoController::class, 'index']);
+Route::get('/GetProduct', [ProductController::class, 'index']);
 
 
 /*****************************************************************************
@@ -64,9 +64,13 @@ Route::group(['middleware'=>['auth']],function(){
     *                            Metodos Post                                    *
     *                                                                            *
     ******************************************************************************/
-        Route::post('/agregarProducto', [ProductoController::class, 'create']);
-        Route::post('/actualizarProductos', [ProductoController::class, 'update']);
-        Route::post('/eliminarProductos', [ProductoController::class, 'destroy']);
+            // Productos
+        Route::post('/agregarProducto', [ProductController::class, 'create']);
+        Route::post('/actualizarProductos', [ProductController::class, 'update']);
+        Route::post('/eliminarProductos', [ProductController::class, 'destroy']);
+        Route::post('admin/product/SaveStatus', [ProductController::class, 'saveStatus']);
+
+
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout'); // SI EL USUARIO ESTA AUTENTICADO PUEDE CERRAR SESION
 
     /*****************************************************************************
@@ -74,8 +78,10 @@ Route::group(['middleware'=>['auth']],function(){
     *                           Metodos Get                                      *
     *                                                                            *
     ******************************************************************************/
-
-        Route::get('/admin/GetProductos', [ProductoController::class, 'index']);
+            // Productos
+        Route::get('/admin/GetProductos', [ProductController::class, 'index']);
+            // User
+        Route::get('/admin/GetUser', [LoginController::class, 'dataUser']);
 
         
     /*****************************************************************************

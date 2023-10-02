@@ -5,20 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Producto extends Model
+class Product extends Model
 {
     use HasFactory;
 
     public $timestamps = false; // Will not modify the timestamps on save
 
-    protected $table = 'productos';
+    protected $table = 'products';
 
     protected $fillable = [
-        'nombre',
-        'descripcion',
-        'envase',
-        'total_pay',
+        'name',
+        'description',
+        'container',
+        'stock',
+        'price',
         'image',
+        'show_product',
         'created_at'
     ];
 }

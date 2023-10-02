@@ -13,6 +13,8 @@
                         <th scope="col">Nombre</th>
                         <th scope="col">Envase</th>
                         <th scope="col">Precio producto</th>
+                        <th scope="col">Mostrar Producto</th>
+                        <th scope="col">Stock</th>
                         <th scope="col">Acción</th>
                       </tr>
                     </thead>
@@ -21,9 +23,19 @@
                       <tr v-for="(data, i) in arrayProductos">
                         <th scope="row">{{ data.id }}</th>
                         <td><v-img :src="data.image" :width="90"></v-img></td>
-                        <td>{{data.nombre}}</td>
-                        <td>{{data.envase}}</td>
-                        <td>{{data.total_pay }}</td>
+                        <td>{{data.name}}</td>
+                        <td>{{data.container}}</td>
+                        <td>{{data.price }}</td>
+                        <td>
+                          <v-switch
+                            v-model="data.show_product"
+                            :true-value="1"
+                            :false-value="0"
+                            hide-details
+                            @change.stop="guardarDatos(data.id, data.show_product)"
+                          ></v-switch>
+                        </td>
+                        <td>{{  data.stock  }}</td>
                         <td>
                             <v-btn icon="mdi-delete" class="mr-1" color="red" @click="eliminarProductos(data)" />
                             <v-btn icon="mdi-pencil" color="warning" @click="openDialog(data)" />
@@ -37,7 +49,7 @@
                     width="auto"
                   >
                     <v-card color="#114b86">
-                      <v-card-title>Modificando el producto ({{ modelForm.nombre }})</v-card-title>
+                      <v-card-title>Modificando el producto ({{ modelForm.name }})</v-card-title>
                       <v-form v-model="valid">
                         <v-container>
                           <v-row>
@@ -46,7 +58,7 @@
                               md="12"
                             >
                               <v-text-field
-                                v-model="modelForm.nombre"
+                                v-model="modelForm.name"
                                 :counter="10"
                                 label="Nombre Producto"
                                 required
@@ -60,19 +72,28 @@
                               md="12"
                             >
                               <v-text-field
-                                v-model="modelForm.envase"
+                                v-model="modelForm.container"
                                 label="Envase del producto"
                                 hide-details
                                 required
                                 :rules="[rules.required]"
                               ></v-text-field>
                             </v-col>
+                            <v-col cols="12" >
+                            <v-text-field
+                              v-model="modelForm.stock"
+                              variant="outlined"
+                              label="Stock"
+                              :rules="[rules.required]"
+                            >
+                          </v-text-field>
+                          </v-col>
                             <v-col
                               cols="12"
                               md="12"
                             >
                               <v-text-field
-                                v-model="modelForm.total_pay"
+                                v-model="modelForm.price"
                                 label="Costo del producto"
                                 hide-details
                                 required
@@ -83,7 +104,7 @@
                               cols="12"
                               md="12"
                             >
-                            <v-textarea :rules="[rules.required]" v-model="modelForm.descripcion" label="Descripcion del producto"></v-textarea>
+                            <v-textarea :rules="[rules.required]" v-model="modelForm.description" label="Descripcion del producto"></v-textarea>
                             </v-col>
                             <v-col cols="12">
                               <v-file-input :rules="[rules.required]" label="Subir Imagen Producto" ref="fileInput" v-model="modelForm.selectedFile" accept="image/*" variant="outlined"></v-file-input>
@@ -111,20 +132,21 @@
     const arrayProductos = ref([])
     const dialog = ref(false)
     const valid = ref('')
-
+    
     const modelForm = ref({
        id: null,
-       nombre: '',
-       descripcion: '',
-       envase: '',
-       total_pay: '',
+       name: '',
+       description: '',
+       container: '',
+       stock: '',
+       price: '',
        selectedFile: []
     })
 
     function traerProductos() {
       axios.get('/admin/GetProductos')
           .then((response) => {
-              arrayProductos.value = response.data 
+              arrayProductos.value = response.data
         })
     }
     onMounted(() => {
@@ -159,10 +181,11 @@
 
     const formData = new FormData();
     formData.append('id', modelForm.value.id); // Asegúrate de incluir el ID del producto
-    formData.append('nombre', modelForm.value.nombre);
-    formData.append('descripcion', modelForm.value.descripcion);
-    formData.append('envase', modelForm.value.envase);
-    formData.append('total_pay', modelForm.value.total_pay);
+    formData.append('name', modelForm.value.name);
+    formData.append('description', modelForm.value.description);
+    formData.append('container', modelForm.value.container);
+    formData.append('stock', modelForm.value.stock);
+    formData.append('price', modelForm.value.price);
     
     // Verifica si se ha seleccionado una nueva imagen
     if (modelForm.value.selectedFile[0]) {
@@ -187,12 +210,25 @@
     })
   }
 
+async function guardarDatos(id,status) {
+  try {
+     // Enviar datos a la base de datos usando una solicitud POST o PUT
+     await axios.post("/admin/product/SaveStatus", {
+        id,
+        status
+    });
+     
+  } catch (error) { 
+    console.log(error);
+  }
+}
 function openDialog(data) {
   dialog.value = true
   modelForm.value.id = data.id
-  modelForm.value.nombre = data.nombre
-  modelForm.value.descripcion = data.descripcion
-  modelForm.value.envase = data.envase
-  modelForm.value.total_pay = data.total_pay
+  modelForm.value.name = data.name
+  modelForm.value.description = data.description
+  modelForm.value.stock = data.stock
+  modelForm.value.container = data.container
+  modelForm.value.price = data.price
 }
 </script>
