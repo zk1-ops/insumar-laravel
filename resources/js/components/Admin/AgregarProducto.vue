@@ -15,11 +15,11 @@
       </template>
       <v-card color="#114b86">
         <v-card-title class="text-h5">
-          Agregar Producto
+          <span style="color: white;">Agregar Producto</span>
         </v-card-title>
         
           <v-sheet max-width="400" >
-            <v-form style="background-color: #114b86; color:white" @submit.prevent="onCreate" class="pa-10">
+            <v-form  style="background-color: #114b86; color:white" @submit.prevent="onCreate" class="pa-10">
               <v-row>
                 <v-col cols="12" >
                   <v-text-field

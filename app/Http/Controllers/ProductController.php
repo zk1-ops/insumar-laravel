@@ -103,4 +103,13 @@ class ProductController extends Controller
         $product->show_product = $status;
         $product->save();
     }
+
+
+    public function getCountProduct() {
+        $data  = Product::all();
+        
+        $dataCount = $data->count();
+
+        return $dataCount;
+    }
 }

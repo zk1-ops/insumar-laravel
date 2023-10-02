@@ -78,8 +78,9 @@ Route::group(['middleware'=>['auth']],function(){
     *                           Metodos Get                                      *
     *                                                                            *
     ******************************************************************************/
-            // Productos
+        // Productos
         Route::get('/admin/GetProductos', [ProductController::class, 'index']);
+        Route::Get('/admin/countProduct', [ProductController::class, 'getCountProduct']);
             // User
         Route::get('/admin/GetUser', [LoginController::class, 'dataUser']);
 

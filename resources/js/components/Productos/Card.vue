@@ -19,7 +19,7 @@
         <v-card style="background: rgba(20, 77, 131, 0.637);" variant="outlined" max-width="250" class="mx-auto" >
           <v-chip class="ma-2" style="left: 35%; background-color: rgb(4, 219, 137);" label>
             <v-icon start icon="mdi-currency-usd"></v-icon>
-            {{ item.price }}
+            {{ item.price.toLocaleString('es-CL') }}
           </v-chip>
 
           <v-img :src="item.image" height="200" contain class="align-self-center" />

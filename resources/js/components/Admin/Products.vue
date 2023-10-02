@@ -20,16 +20,17 @@
                     </thead>
                     <tbody>
                     
-                      <tr v-for="(data, i) in arrayProductos">
+                      <tr v-for="(data, i) in paginatedProductos">
                         <th scope="row">{{ data.id }}</th>
                         <td><v-img :src="data.image" :width="90"></v-img></td>
                         <td>{{data.name}}</td>
                         <td>{{data.container}}</td>
-                        <td>{{data.price }}</td>
+                        <td>{{data.price.toLocaleString('es-CL') }}</td>
                         <td>
                           <v-switch
                             v-model="data.show_product"
                             :true-value="1"
+                            color="primary"
                             :false-value="0"
                             hide-details
                             @change.stop="guardarDatos(data.id, data.show_product)"
@@ -44,13 +45,17 @@
                     </tbody>
                   </table>
 
+                  <v-col cols="12">
+                    <v-pagination prev-icon="mdi-menu-left" next-icon="mdi-menu-right" v-model="current" :length="totalPages"></v-pagination>
+                  </v-col>
+
                 <v-dialog
                     v-model="dialog"
                     width="auto"
                   >
                     <v-card color="#114b86">
-                      <v-card-title>Modificando el producto ({{ modelForm.name }})</v-card-title>
-                      <v-form v-model="valid">
+                      <v-card-title style="color: white;">Modificando el producto ({{ modelForm.name }})</v-card-title>
+                      <v-form style="color: white;" v-model="valid" @submit.prevent="actualizarProducto()">
                         <v-container>
                           <v-row>
                             <v-col
@@ -84,7 +89,7 @@
                               v-model="modelForm.stock"
                               variant="outlined"
                               label="Stock"
-                              :rules="[rules.required]"
+                              :rules="[rules.required, rules.isNumber]"
                             >
                           </v-text-field>
                           </v-col>
@@ -104,30 +109,31 @@
                               cols="12"
                               md="12"
                             >
-                            <v-textarea :rules="[rules.required]" v-model="modelForm.description" label="Descripcion del producto"></v-textarea>
+                            <v-textarea :counter="150" :rules="[rules.required, rules.maxLength(150)]" v-model="modelForm.description" label="Descripcion del producto"></v-textarea>
                             </v-col>
                             <v-col cols="12">
                               <v-file-input :rules="[rules.required]" label="Subir Imagen Producto" ref="fileInput" v-model="modelForm.selectedFile" accept="image/*" variant="outlined"></v-file-input>
                             </v-col>
                           </v-row>
                         </v-container>
-                      </v-form>
-                      <v-card-actions>
-                        <v-btn color="red" @click="dialog = false">Cerrar</v-btn>
-                        <v-btn variant="tonal" @click="actualizarProducto" color="success">Actualizar</v-btn>
+                        <v-card-actions>
+                          <v-btn color="red" @click="dialog = false">Cerrar</v-btn>
+                          <v-btn variant="tonal" type="submit" color="success">Actualizar</v-btn>
                       </v-card-actions>
+                      </v-form>
                     </v-card>
                 </v-dialog>
         </div>
   </template>
 
 <script setup lang="ts">
-    import { ref, onMounted } from 'vue'
+    import { ref, onMounted, computed } from 'vue'
     import axios from 'axios'
     import Swal from 'sweetalert2'
     import { rules } from '../../utils/input'
 
-    const dialogAddProd = ref(false)
+    const current = ref(1) // Página actual, inicialmente establecida en 1
+    const pageSize = 10 // Tamaño de página deseado
 
     const arrayProductos = ref([])
     const dialog = ref(false)
@@ -149,6 +155,24 @@
               arrayProductos.value = response.data
         })
     }
+    // Propiedad computada para obtener el número total de páginas
+    const totalPages = computed(() => {
+      const totalItems = arrayProductos.value.length // Utiliza arrayProductos.value.length en lugar de arrayProductos.length
+      return Math.ceil(totalItems / pageSize)
+    })
+
+    const paginatedProductos = computed(() => {
+      const startIndex = (current.value - 1) * pageSize;
+      const endIndex = startIndex + pageSize
+
+      if (Array.isArray(arrayProductos.value)) {
+        let filtredProductos = arrayProductos.value.slice();
+
+        return filtredProductos.slice(startIndex, endIndex)
+    } else{
+      return []
+    }
+  })
     onMounted(() => {
        traerProductos()
     })
@@ -231,4 +255,6 @@ function openDialog(data) {
   modelForm.value.container = data.container
   modelForm.value.price = data.price
 }
+
+
 </script>
