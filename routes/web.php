@@ -94,10 +94,13 @@ Route::group(['middleware'=>['auth']],function(){
             return view('dashboard');
         })->name('dashboard');
 
-        Route::get('/admin/products', function() {
+        Route::get('/admin/suppliers', function() {
             return view('dashboard');
         })->name('products');
 
+        Route::get('/admin/products', function() {
+            return view('dashboard');
+        })->name('suppliers');
 
     
 });

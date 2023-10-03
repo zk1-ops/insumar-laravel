@@ -1,4 +1,9 @@
 <template>
+    <v-toolbar color="transparent" title="Proveedores">
+      <v-spacer></v-spacer>
+
+      <AdminDialogAddProveedores/>
+    </v-toolbar>
     <h1>Vista Proveedores!</h1>
     <div class="table-responsive">
                  <table class="table">

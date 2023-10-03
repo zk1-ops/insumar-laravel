@@ -10,43 +10,67 @@ import AdminProducts from './components/Admin/Products.vue'
 import AdminDashboard from './components/Admin/Dashboard.vue'
 import AdminSuppliers from './components/Admin/Suppliers.vue'
 
+
 const routes = [
   {
     path: '/',
     component: Home,
-    name: 'Inicio'
+    name: 'Inicio',
+    meta: {
+      title: 'INSUMAR - Inicio'
+   }
   },
   {
     path: '/productos',
     component: Productos,
-    name: 'Productos'
+    name: 'Productos',
+    meta: {
+      title: 'INSUMAR - Productos'
+   }
   },
   // Admin .... // Admin .... // Admin ....
   {
     path: '/admin/dashboard',
     component: AdminDashboard,
-    name: 'AdminDashboard'
+    name: 'AdminDashboard',
+    meta: {
+      title: 'INSUMAR - Dashboard'
+   }
   },
   {
     path: '/admin/users',
     component: AdminUsers,
-    name: 'AdminUsers'
+    name: 'AdminUsers',
+    meta: {
+      title: 'INSUMAR - Empleados'
+   }
   },
   {
     path: '/admin/products',
     component: AdminProducts,
-    name: 'AdminProducts'
+    name: 'AdminProducts',
+    meta: {
+      title: 'INSUMAR - Productos'
+   }
   },
   {
     path: '/admin/suppliers',
     component: AdminSuppliers,
-    name: 'AdminSuppliers'
+    name: 'AdminSuppliers',
+    meta: {
+       title: 'INSUMAR - Proveedores'
+    }
   }
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes
+});
+
+// Configura la actualización del título al cambiar de ruta
+router.afterEach((to) => {
+  document.title = to.meta.title;
 });
 
 export default router;
