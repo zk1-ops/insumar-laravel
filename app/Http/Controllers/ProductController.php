@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
 use App\Models\Product;
+use App\Models\Supplier;
 
 class ProductController extends Controller
 {
@@ -27,11 +28,16 @@ class ProductController extends Controller
         $imagen = $request->file('imagen');
 
         $product = Product::find($request->id);
+        $product->id_supplier = $request->id_supplier;
         $product->name = $request->name;
         $product->container = $request->container;
         $product->description = $request->description;
         $product->stock = $request->stock;
         $product->price = $request->price;
+
+        // Buscamos el proveedor para llevarlo a la interfaz
+
+        $supplier  = Supplier::find($product->id_supplier);
         
         // Verifica si se cargó una nueva imagen
         if ($imagen) {
@@ -84,11 +90,12 @@ class ProductController extends Controller
 
 
         $productos = Product::create([
+            'id_supplier' =>request('id_supplier'),
             'name' =>request('nombre'),
-            'description' =>request('descripcion'),
-            'container'=>request('envase'),
+            'description' =>request('description'),
+            'container'=>request('container'),
             'stock' => request('stock'),
-            'price'=>request('precio'),
+            'price'=>request('price'),
             'image' => $urlImagen,
             'created_at' => now()
         ]);

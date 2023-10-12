@@ -37,7 +37,7 @@ class LoginController extends Controller
        Auth::login($exists);
        $request->session()->regenerate();
         
-       return redirect()->route('dashboard'); // Asegúrate de que 'dashboard' sea la ruta correcta
+       return redirect()->route('admin/app'); // Asegúrate de que 'dashboard' sea la ruta correcta
     }
 
     public function logout(Request $request): RedirectResponse

@@ -19,7 +19,7 @@
         </v-card-title>
         
           <v-sheet max-width="400" >
-            <v-form  style="background-color: #114b86; color:white" @submit.prevent="onCreate" class="pa-10">
+            <v-form  style="background-color: #114b86fb; color:white" @submit.prevent="onCreate" class="pa-10">
               <v-row>
                 <v-col cols="12" >
                   <v-text-field
@@ -67,6 +67,21 @@
                 </v-text-field>
                 </v-col>
                 <v-col cols="12">
+                  <v-select
+                    v-model="modelForm.selectedProv"
+                    :items="arraySuppliers"
+                    variant="outlined"
+                    item-title="business_name"
+                    item-value="id"
+                    label="Default"
+                    persistent-hint
+                  >
+                    <template v-slot:item="{ props, item }">
+                      <v-list-item v-bind="props" :subtitle="item.raw.contact_mail"></v-list-item>
+                    </template>
+                  </v-select>
+                </v-col>
+                <v-col cols="12">
                   <v-file-input :rules="[rules.required]" label="Subir Imagen Producto" ref="fileInput" v-model="modelForm.selectedFile" accept="image/*" variant="outlined"></v-file-input>
                 </v-col>
               </v-row>
@@ -94,7 +109,7 @@
   </v-row>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { rules } from '../../utils/input'
 import Swal from 'sweetalert2'
@@ -107,10 +122,12 @@ const modelForm = ref({
   container: '',
   stock: null,
   price: null,
-  selectedFile: []
+  selectedFile: [],
+  selectedProv: null
 })
 
 const arrayProductos = ref([])
+const arraySuppliers = ref([])
 
 function traerProductos() {
       axios.get('/admin/GetProductos')
@@ -119,31 +136,45 @@ function traerProductos() {
         })
     }
 
+function getSupplier() {
+  axios.get('/admin/GetSuppliers')
+      .then((response) => {
+        arraySuppliers.value = response.data 
+        
+    })
+}
+
+onMounted(async () => {
+  await getSupplier()
+})
+
+
 function onCreate() {
   // Crea un objeto FormData y agrega el archivo seleccionado
   const formData = new FormData();
   formData.append('nombre', modelForm.value.name);
-  formData.append('descripcion', modelForm.value.description);
-  formData.append('envase', modelForm.value.container);
+  formData.append('description', modelForm.value.description);
+  formData.append('container', modelForm.value.container);
   formData.append('stock', modelForm.value.stock);
-  formData.append('precio', modelForm.value.price);
+  formData.append('price', modelForm.value.price);
   formData.append('imagen', modelForm.value.selectedFile[0]);
+  formData.append('id_supplier', modelForm.value.selectedProv);
 
 
-  axios.post('/agregarProducto', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data' // Configura el tipo de contenido para cargar archivos
-    }
-  }).then((response) => {
-    Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: 'Ha sido agregado correctamente',
-        showConfirmButton: false,
-        timer: 1500
-      })
-        window.location.reload();
-        dialogAddProd.value = false
-  })
+ axios.post('/agregarProducto', formData, {
+   headers: {
+     'Content-Type': 'multipart/form-data' // Configura el tipo de contenido para cargar archivos
+   }
+ }).then((response) => {
+   Swal.fire({
+       position: 'top-end',
+       icon: 'success',
+       title: 'Ha sido agregado correctamente',
+       showConfirmButton: false,
+       timer: 1500
+     })
+       window.location.reload();
+       dialogAddProd.value = false
+ })
 }
 </script>

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\Auth\LoginController;
 
 
@@ -80,8 +81,12 @@ Route::group(['middleware'=>['auth']],function(){
     ******************************************************************************/
         // Productos
         Route::get('/admin/GetProductos', [ProductController::class, 'index']);
-        Route::Get('/admin/countProduct', [ProductController::class, 'getCountProduct']);
-            // User
+        Route::get('/admin/countProduct', [ProductController::class, 'getCountProduct']);
+        
+        // Proveedores
+        Route::get('/admin/GetSuppliers', [SupplierController::class, 'index']);
+
+        // User
         Route::get('/admin/GetUser', [LoginController::class, 'dataUser']);
 
         
@@ -91,16 +96,20 @@ Route::group(['middleware'=>['auth']],function(){
     *                                                                            *
     ******************************************************************************/
         Route::get('/admin/dashboard', function() {
-            return view('dashboard');
-        })->name('dashboard');
+            return view('admin/app');
+        })->name('admin/app');
 
         Route::get('/admin/suppliers', function() {
-            return view('dashboard');
+            return view('admin/app');
         })->name('products');
 
         Route::get('/admin/products', function() {
-            return view('dashboard');
+            return view('admin/app');
         })->name('suppliers');
+
+        Route::get('/admin/sales', function() {
+            return view('admin/app');
+        })->name('sales');
 
     
 });

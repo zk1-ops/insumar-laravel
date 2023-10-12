@@ -11,6 +11,7 @@
                         <th scope="col">#</th>
                         <th scope="col"></th>
                         <th scope="col">Nombre</th>
+                        <th scope="col">Descripcion</th>
                         <th scope="col">Envase</th>
                         <th scope="col">Precio producto</th>
                         <th scope="col">Mostrar Producto</th>
@@ -24,6 +25,17 @@
                         <th scope="row">{{ data.id }}</th>
                         <td><v-img :src="data.image" :width="90"></v-img></td>
                         <td>{{data.name}}</td>
+                        <td>
+                          <v-textarea 
+                          disabled
+                          rows="1"
+                          row-height="15" 
+                          variant="filled" 
+                          auto-grow 
+                          bg-color="amber-lighten-4"
+                          :model-value="data.description">
+                        </v-textarea>
+                      </td>
                         <td>{{data.container}}</td>
                         <td>{{data.price.toLocaleString('es-CL') }}</td>
                         <td>
@@ -63,6 +75,7 @@
                               md="12"
                             >
                               <v-text-field
+                                variant="outlined"
                                 v-model="modelForm.name"
                                 :counter="10"
                                 label="Nombre Producto"
@@ -78,6 +91,7 @@
                             >
                               <v-text-field
                                 v-model="modelForm.container"
+                                variant="outlined"
                                 label="Envase del producto"
                                 hide-details
                                 required
@@ -93,12 +107,28 @@
                             >
                           </v-text-field>
                           </v-col>
+                            <v-col cols="12" md="12">
+                              <v-select
+                                variant="outlined"
+                                v-model="modelForm.selectedProv"
+                                :items="arraySuppliers"
+                                item-title="business_name"
+                                item-value="id"
+                                label="Proveedor"
+                                persistent-hint
+                              >
+                                <template v-slot:item="{ props, item }">
+                                  <v-list-item v-bind="props" :subtitle="item.raw.contact_mail"></v-list-item>
+                                </template>
+                              </v-select>
+                            </v-col>
                             <v-col
                               cols="12"
                               md="12"
                             >
                               <v-text-field
                                 v-model="modelForm.price"
+                                variant="outlined"
                                 label="Costo del producto"
                                 hide-details
                                 required
@@ -109,10 +139,10 @@
                               cols="12"
                               md="12"
                             >
-                            <v-textarea :counter="150" :rules="[rules.required, rules.maxLength(150)]" v-model="modelForm.description" label="Descripcion del producto"></v-textarea>
+                            <v-textarea variant="outlined" :counter="150" :rules="[rules.required, rules.maxLength(150)]" v-model="modelForm.description" label="Descripcion del producto"></v-textarea>
                             </v-col>
                             <v-col cols="12">
-                              <v-file-input :rules="[rules.required]" label="Subir Imagen Producto" ref="fileInput" v-model="modelForm.selectedFile" accept="image/*" variant="outlined"></v-file-input>
+                              <v-file-input  :rules="[rules.required]" label="Subir Imagen Producto" ref="fileInput" v-model="modelForm.selectedFile" accept="image/*" variant="outlined"></v-file-input>
                             </v-col>
                           </v-row>
                         </v-container>
@@ -138,6 +168,8 @@
     const arrayProductos = ref([])
     const dialog = ref(false)
     const valid = ref('')
+
+    const arraySuppliers = ref([])
     
     const modelForm = ref({
        id: null,
@@ -146,7 +178,8 @@
        container: '',
        stock: '',
        price: '',
-       selectedFile: []
+       selectedFile: [],
+       selectedProv: null,
     })
 
     function traerProductos() {
@@ -155,6 +188,15 @@
               arrayProductos.value = response.data
         })
     }
+
+    function getSupplier() {
+      axios.get('/admin/GetSuppliers')
+          .then((response) => {
+            arraySuppliers.value = response.data 
+            
+        })
+    }
+
     // Propiedad computada para obtener el número total de páginas
     const totalPages = computed(() => {
       const totalItems = arrayProductos.value.length // Utiliza arrayProductos.value.length en lugar de arrayProductos.length
@@ -175,6 +217,7 @@
   })
     onMounted(() => {
        traerProductos()
+       getSupplier()
     })
     function eliminarProductos(data){
       Swal.fire({
@@ -210,6 +253,7 @@
     formData.append('container', modelForm.value.container);
     formData.append('stock', modelForm.value.stock);
     formData.append('price', modelForm.value.price);
+    formData.append('id_supplier', modelForm.value.selectedProv);
     
     // Verifica si se ha seleccionado una nueva imagen
     if (modelForm.value.selectedFile[0]) {
@@ -254,6 +298,8 @@ function openDialog(data) {
   modelForm.value.stock = data.stock
   modelForm.value.container = data.container
   modelForm.value.price = data.price
+
+  modelForm.value.selectedProv = data.id_supplier
 }
 
 

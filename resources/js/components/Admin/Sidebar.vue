@@ -53,7 +53,7 @@
       </router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'AdminUsers' }">
+        <router-link :to="{ name: 'AdminSales' }">
         <a>
           <i class="zmdi zmdi-archive"></i> <span>Ventas</span>
         </a>

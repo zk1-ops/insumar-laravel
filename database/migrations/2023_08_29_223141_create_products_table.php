@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->bigIncrements('id');;
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('id_supplier');
             $table->string('name');
             $table->longText('description');
             $table->integer('stock');
@@ -22,11 +23,15 @@ return new class extends Migration
             $table->boolean('show_product')->default(true);
             $table->date('created_at')->default(now());
 
+            $table->foreign('id_supplier')->references('id')->on('suppliers');
+
+
         });
 
         DB::table('products')->insert([
             [
                 'id' => 1,
+                'id_supplier' => 1,
                 'name' => 'Camarón 36/40',
                 'description' => 'Este es el camarón 36/40. Es un delicioso camarón de tamaño medio.',
                 'stock' => 50,
@@ -36,6 +41,7 @@ return new class extends Migration
             ],
             [
                 'id' => 2,
+                'id_supplier' => 1,
                 'name' => 'Salmon Filete',
                 'description' => 'Este es el camarón 36/40. Es un delicioso camarón de tamaño medio.',
                 'stock' => 50,
@@ -45,6 +51,7 @@ return new class extends Migration
             ],
             [
                 'id' => 3,
+                'id_supplier' => 1,
                 'name' => 'Camarón 100/150',
                 'description' => 'Este es el camarón 100/150. Es un camarón de gran tamaño, ideal para platos fuertes.',
                 'stock' => 50,
@@ -54,6 +61,7 @@ return new class extends Migration
             ],
             [
                 'id' => 4,
+                'id_supplier' => 1,
                 'name' => 'Reienta',
                 'description' => 'La reineta es un pescado de tamaño medio a grande con piel marrón oscuro o gris en la parte superior y plateada en la parte inferior. Su carne blanca y suave tiene un sabor dulce y delicado que se presta bien a una variedad de preparaciones culinarias.',
                 'stock' => 50,
@@ -63,6 +71,7 @@ return new class extends Migration
             ],
             [
                 'id' => 5,
+                'id_supplier' => 1,
                 'name' => 'Merluza',
                 'description' => 'Tiene una carne firme y blanca con un sabor suave y dulce que la hace muy versátil en la cocina. Es una opción popular para platos tanto fritos como a la parrilla, y es conocida por su valor nutricional, ya que es una buena fuente de proteínas y ácidos grasos omega-3.',
                 'stock' => 50,
@@ -72,6 +81,7 @@ return new class extends Migration
             ],
             [
                 'id' => 6,
+                'id_supplier' => 2,
                 'name' => 'Surtido de mariscos',
                 'description' => 'Este surtido de mariscos es una selección de diferentes tipos de mariscos, que pueden incluir camarones, almejas, mejillones, cangrejos, langostinos, pulpo, calamares, entre otros. Suele ser un plato muy apreciado en la gastronomía de diversas culturas, ya que los mariscos son una fuente de proteínas y minerales, además de ser una deliciosa opción para degustar en diferentes preparaciones culinarias como paellas, arroces, fideuás, ceviches, entre otros. Un surtido de mariscos puede ser presentado como un plato principal o como una entrada en una comida o cena especial.',
                 'stock' => 50,
@@ -81,6 +91,7 @@ return new class extends Migration
             ],
             [
                 'id' => 7,
+                'id_supplier' => 2,
                 'name' => 'Queso crema',
                 'description' => 'Este es el queso crema. Es un queso cremoso y delicioso, perfecto para untar en tus comidas favoritas.',
                 'stock' => 50,

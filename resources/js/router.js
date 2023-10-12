@@ -5,10 +5,11 @@ import Productos from './components/Productos/ShowProducts.vue'; // Importa tus 
 
 
 // Dashboard Rutas
-import AdminUsers from './components/Admin/User.vue'
-import AdminProducts from './components/Admin/Products.vue'
-import AdminDashboard from './components/Admin/Dashboard.vue'
-import AdminSuppliers from './components/Admin/Suppliers.vue'
+import AdminUsers from './pages/Admin/User.vue'
+import AdminProducts from './pages/Admin/Products.vue'
+import AdminDashboard from './pages/Admin/Dashboard.vue'
+import AdminSuppliers from './pages/Admin/Suppliers.vue'
+import AdminSales from './pages/Admin/Sales.vue'
 
 
 const routes = [
@@ -59,6 +60,14 @@ const routes = [
     name: 'AdminSuppliers',
     meta: {
        title: 'INSUMAR - Proveedores'
+    }
+  },
+  {
+    path: '/admin/sales',
+    component: AdminSales,
+    name: 'AdminSales',
+    meta: {
+       title: 'INSUMAR - Ventas'
     }
   }
 ];

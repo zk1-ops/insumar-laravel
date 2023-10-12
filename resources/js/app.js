@@ -1,6 +1,6 @@
 import { createApp } from "vue";
 import App from "./App.vue";
-import AdminMain from "./components/Admin/Main.vue"
+import AdminMain from "./pages/Admin/Main.vue"
 import router from './router'; // Importa el enrutador
 
 //add this
@@ -39,6 +39,7 @@ import colors from 'vuetify/lib/util/colors'
 import AdminSidebar from './components/Admin/Sidebar.vue'
 import AdminDialogAddProductos from './components/Admin/AgregarProducto.vue'
 import AdminDialogAddProveedores from './components/Admin/AgregarProveedores.vue'
+import AdminDialogAddSales from './components/Admin/AgregarVentas.vue'
 
 const vuetify = createVuetify({
     components: {
@@ -53,7 +54,8 @@ const vuetify = createVuetify({
         HomeContact,
         AdminSidebar,
         AdminDialogAddProductos,
-        AdminDialogAddProveedores
+        AdminDialogAddProveedores,
+        AdminDialogAddSales
     },
     directives,
 
