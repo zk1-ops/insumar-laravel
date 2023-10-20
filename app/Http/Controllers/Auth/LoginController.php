@@ -62,4 +62,14 @@ class LoginController extends Controller
     public function dataUser(Request $request) {
         return response()->json($request->user());
     }
+
+
+    // EJEMPLO !!!!
+    public function test(Request $request) {
+        $nombre = $request->nombre;
+        $edad = $request->edad;
+
+        
+        return [ $nombre, $edad ];
+    }
 }

@@ -33,6 +33,8 @@ Route::get('/admin', function() {
     return view('login');
 })->name('login');
 
+
+Route::post('/xxxx', [ LoginController::class, 'test' ]); // Ejemplo !!! 
 /*****************************************************************************
 *                                                                            *
 *                           Get de Cualquier Cosa                            *
