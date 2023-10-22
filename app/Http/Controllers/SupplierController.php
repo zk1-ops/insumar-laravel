@@ -20,7 +20,8 @@ class SupplierController extends Controller
         $supplier = Supplier::create ([
             'business_name' => $request->business_name,
             'dni' => $request->dni,
-            'contact_mail' => $request->contact_email,
+            'contact_person' => $request->contact_person,
+            'contact_mail' => $request->contact_mail,
             'contact_phone' => $request->contact_phone,
             'city' => $request->city,
             'address' => $request->address,
@@ -38,6 +39,7 @@ class SupplierController extends Controller
         
         $supplier->business_name = $request->business_name;
         $supplier->dni = $request->dni;
+        $supplier->contact_person = $request->contact_person;
         $supplier->contact_mail = $request->contact_mail;
         $supplier->contact_phone = $request->contact_phone;
         $supplier->city = $request->city;
@@ -49,7 +51,19 @@ class SupplierController extends Controller
 
     public function destroy(Request $request)
     {
-        $supplier = Supplier::find($request->id);
-        $supplier->delete();
+       try {
+            $supplier = Supplier::find($request->id);
+            $supplier->delete();
+       } catch (\Throwable $th) {
+        return response()->json(['error' => 'No se puede eliminar el proveedor debido a las restricciones de integridad.'], 500);
+       }
+    }
+
+    public function getCountSuppliers() {
+        $data  = Supplier::all();
+        
+        $dataCount = $data->count();
+
+        return $dataCount;
     }
 }

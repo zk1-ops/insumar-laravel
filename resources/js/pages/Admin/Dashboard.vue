@@ -24,11 +24,11 @@
                     </div>
                     <div class="col-12 col-lg-6 col-xl-3 border-light">
                         <div class="card-body">
-                        <h5 class="text-white mb-0">6200 <span class="float-right"><i class="fa fa-eye"></i></span></h5>
+                        <h5 class="text-white mb-0">{{ countSupplier }} <span class="float-right"><i class="fa fa-eye"></i></span></h5>
                             <div class="progress my-3" style="height:3px;">
-                            <div class="progress-bar" style="width:55%"></div>
+                            <div class="progress-bar" :style="`width: ${countSupplier}%`"></div>
                             </div>
-                        <p class="mb-0 text-white small-font">Total de proveedores <span class="float-right">+5.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
+                        <p class="mb-0 text-white small-font">Total de proveedores</p>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 col-xl-3 border-light">
@@ -50,10 +50,15 @@ import { onMounted, ref } from 'vue';
 import axios from 'axios';
 
 const countProduct = ref(null)
+const countSupplier = ref(null)
 
 onMounted(async () => {
     await axios.get('/admin/countProduct').then(function (response) {
         countProduct.value = response.data
+    })
+
+    await axios.get('/admin/countSupplier').then(function (response) {
+        countSupplier.value = response.data
     })
 })
 

@@ -67,13 +67,13 @@ Route::group(['middleware'=>['auth']],function(){
     *                            Metodos Post                                    *
     *                                                                            *
     ******************************************************************************/
-            // Productos
+        // Productos
         Route::post('/agregarProducto', [ProductController::class, 'create']);
         Route::post('/actualizarProductos', [ProductController::class, 'update']);
         Route::post('/eliminarProductos', [ProductController::class, 'destroy']);
         Route::post('admin/product/SaveStatus', [ProductController::class, 'saveStatus']);
 
-            // Proveedores
+        // Proveedores
         Route::post('/agregarProveedor', [SupplierController::class, 'create']);
         Route::post('/actualizarProveedor', [SupplierController::class, 'update']);
         Route::post('/eliminarProveedor', [SupplierController::class, 'destroy']);
@@ -91,6 +91,8 @@ Route::group(['middleware'=>['auth']],function(){
         
         // Proveedores
         Route::get('/admin/GetSuppliers', [SupplierController::class, 'index']);
+        Route::get('/admin/countSupplier', [SupplierController::class, 'getCountSuppliers']);
+
 
         // User
         Route::get('/admin/GetUser', [LoginController::class, 'dataUser']);

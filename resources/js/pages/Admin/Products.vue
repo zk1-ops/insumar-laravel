@@ -50,8 +50,8 @@
                         </td>
                         <td>{{  data.stock  }}</td>
                         <td>
-                            <v-btn icon="mdi-delete" class="mr-1" color="red" @click="eliminarProductos(data)" />
-                            <v-btn icon="mdi-pencil" color="warning" @click="openDialog(data)" />
+                            <v-btn icon="mdi-pencil" color="warning"  size="x-small" @click="openDialog(data)" />
+                            <v-btn icon="mdi-delete" class="ml-1" color="red" size="x-small"  @click="eliminarProductos(data)" />
                         </td>
                       </tr>
                     </tbody>
@@ -231,12 +231,12 @@
           confirmButtonText: 'Si, estoy seguro!'
         }).then((result) => {
           if (result.isConfirmed) {
-            Swal.fire(
+            axios.post('/eliminarProductos', { id: data.id }).then(function response(){
+              Swal.fire(
               'Eliminado !',
               'El producto ha sido eliminado.',
               'success'
             )
-            axios.post('/eliminarProductos', { id: data.id }).then(function response(){
               traerProductos()
             })  
           }
