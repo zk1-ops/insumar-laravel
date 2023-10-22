@@ -73,6 +73,10 @@ Route::group(['middleware'=>['auth']],function(){
         Route::post('/eliminarProductos', [ProductController::class, 'destroy']);
         Route::post('admin/product/SaveStatus', [ProductController::class, 'saveStatus']);
 
+            // Proveedores
+        Route::post('/agregarProveedor', [SupplierController::class, 'create']);
+        Route::post('/actualizarProveedor', [SupplierController::class, 'update']);
+        Route::post('/eliminarProveedor', [SupplierController::class, 'destroy']);
 
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout'); // SI EL USUARIO ESTA AUTENTICADO PUEDE CERRAR SESION
 
