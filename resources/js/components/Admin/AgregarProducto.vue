@@ -13,97 +13,98 @@
           Agregar productos
         </v-btn>
       </template>
-      <v-card color="#114b86">
-        <v-card-title class="text-h5">
-          <span style="color: white;">Agregar Producto</span>
-        </v-card-title>
-        
-          <v-sheet max-width="400" >
-            <v-form  style="background-color: #114b86fb; color:white" @submit.prevent="onCreate" class="pa-10">
-              <v-row>
-                <v-col cols="12" >
-                  <v-text-field
-                    v-model="modelForm.name"
-                    variant="outlined"
-                    label="Nombre"
-                    :rules="[rules.required]"
-                  >
-                </v-text-field>
-                </v-col>
-                <v-col cols="12" >
-                  <v-text-field
-                    v-model="modelForm.description"
-                    variant="outlined"
-                    label="Descripcion"
-                    :rules="[rules.required]"
-                  >
-                  </v-text-field>
-                </v-col>
-                <v-col cols="12" >
-                  <v-text-field
-                    v-model="modelForm.container"
-                    variant="outlined"
-                    label="Envase"
-                    :rules="[rules.required]"
-                  >
-                </v-text-field>
-                </v-col>
-                <v-col cols="12" >
-                  <v-text-field
-                    v-model="modelForm.stock"
-                    variant="outlined"
-                    label="Stock"
-                    :rules="[rules.required]"
-                  >
-                </v-text-field>
-                </v-col>
-                <v-col cols="12" >
-                  <v-text-field
-                    v-model="modelForm.price"
-                    variant="outlined"
-                    label="Precio"
-                    :rules="[rules.required]"
-                  >
-                </v-text-field>
-                </v-col>
-                <v-col cols="12">
-                  <v-select
-                    v-model="modelForm.selectedProv"
-                    :items="arraySuppliers"
-                    variant="outlined"
-                    item-title="business_name"
-                    item-value="id"
-                    label="Default"
-                    persistent-hint
-                  >
-                    <template v-slot:item="{ props, item }">
-                      <v-list-item v-bind="props" :subtitle="item.raw.contact_mail"></v-list-item>
-                    </template>
-                  </v-select>
-                </v-col>
-                <v-col cols="12">
-                  <v-file-input :rules="[rules.required]" label="Subir Imagen Producto" ref="fileInput" v-model="modelForm.selectedFile" accept="image/*" variant="outlined"></v-file-input>
-                </v-col>
-              </v-row>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn
-                  color="red"
-                  variant="text"
-                  @click="dialogAddProd = false"
+      <v-card color="#114b86">      
+        <v-card-title style="color: white;">Creando un nuevo producto</v-card-title>
+        <v-form style="color: white;" @submit.prevent="onCreate">
+          <v-container>
+            <v-row>
+              <v-col
+                cols="12"
+                md="12"
+              >
+                <v-text-field
+                  v-model="modelForm.name"
+                  variant="outlined"
+                  prepend-inner-icon="mdi-shopping"
+                  :counter="10"
+                  label="Nombre Producto"
+                  required
+                  hide-details
+                  :rules="[rules.required]"
+                ></v-text-field>
+              </v-col>
+
+              <v-col
+                cols="12"
+                md="12"
+              >
+                <v-text-field
+                  v-model="modelForm.container"
+                  variant="outlined"
+                  prepend-inner-icon="mdi-semantic-web"
+                  label="Envase del producto"
+                  hide-details
+                  required
+                  :rules="[rules.required]"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="3" >
+              <v-text-field
+                v-model="modelForm.stock"
+                variant="outlined"
+                prepend-inner-icon="mdi-stocking"
+                label="Stock"
+                :rules="[rules.required, rules.isNumber]"
+              >
+            </v-text-field>
+            </v-col>
+              <v-col cols="12" md="4">
+                <v-select
+                  variant="outlined"
+                  v-model="modelForm.selectedProv"
+                  prepend-inner-icon="mdi-account-group"
+                  :items="arraySuppliers"
+                  item-title="business_name"
+                  item-value="id"
+                  label="Proveedor"
+                  :rules="[rules.required]"
+                  persistent-hint
                 >
-                  Cerrar
-                </v-btn>
-                <v-btn
-                  color="green-darken-1"
-                  variant="flat"
-                  type="submit"
-                >
-                  Agregar
-                </v-btn>
-              </v-card-actions>
-            </v-form>
-          </v-sheet>
+                  <template v-slot:item="{ props, item }">
+                    <v-list-item v-bind="props" :subtitle="item.raw.contact_mail"></v-list-item>
+                  </template>
+                </v-select>
+              </v-col>
+              <v-col
+                cols="12"
+                md="4"
+              >
+                <v-text-field
+                  v-model="modelForm.price"
+                  variant="outlined"
+                  prepend-inner-icon="mdi-currency-usd"
+                  label="Costo del producto"
+                  hide-details
+                  required
+                  :rules="[rules.required]"
+                ></v-text-field>
+              </v-col>
+              <v-col
+                cols="12"
+                md="12"
+              >
+              <v-textarea prepend-inner-icon="mdi-text-box" variant="outlined" :counter="150" :rules="[rules.required, rules.maxLength(150)]" v-model="modelForm.description" label="Descripcion del producto"></v-textarea>
+              </v-col>
+              <v-col cols="12">
+                <v-file-input  :rules="[rules.required]" label="Subir Imagen Producto" ref="fileInput" v-model="modelForm.selectedFile" accept="image/*" variant="outlined"></v-file-input>
+              </v-col>
+            </v-row>
+          </v-container>
+          <v-card-actions>
+            <v-btn color="red" @click="dialogAddProd = false">Cerrar</v-btn>
+            <v-btn variant="tonal" type="submit" color="success">Crear</v-btn>
+        </v-card-actions>
+        </v-form>
       </v-card>
     </v-dialog>
   </v-row>

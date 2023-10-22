@@ -75,8 +75,9 @@
                               md="12"
                             >
                               <v-text-field
-                                variant="outlined"
                                 v-model="modelForm.name"
+                                variant="outlined"
+                                prepend-inner-icon="mdi-shopping"
                                 :counter="10"
                                 label="Nombre Producto"
                                 required
@@ -92,28 +93,32 @@
                               <v-text-field
                                 v-model="modelForm.container"
                                 variant="outlined"
+                                prepend-inner-icon="mdi-semantic-web"
                                 label="Envase del producto"
                                 hide-details
                                 required
                                 :rules="[rules.required]"
                               ></v-text-field>
                             </v-col>
-                            <v-col cols="12" >
+                            <v-col cols="12" md="4">
                             <v-text-field
                               v-model="modelForm.stock"
                               variant="outlined"
+                              prepend-inner-icon="mdi-stocking"
                               label="Stock"
                               :rules="[rules.required, rules.isNumber]"
                             >
                           </v-text-field>
                           </v-col>
-                            <v-col cols="12" md="12">
+                            <v-col cols="12" md="4">
                               <v-select
                                 variant="outlined"
                                 v-model="modelForm.selectedProv"
+                                prepend-inner-icon="mdi-account-group"
                                 :items="arraySuppliers"
                                 item-title="business_name"
                                 item-value="id"
+                                :rules="[rules.required]"
                                 label="Proveedor"
                                 persistent-hint
                               >
@@ -124,11 +129,12 @@
                             </v-col>
                             <v-col
                               cols="12"
-                              md="12"
+                              md="4"
                             >
                               <v-text-field
                                 v-model="modelForm.price"
                                 variant="outlined"
+                                prepend-inner-icon="mdi-currency-usd"
                                 label="Costo del producto"
                                 hide-details
                                 required
@@ -139,7 +145,7 @@
                               cols="12"
                               md="12"
                             >
-                            <v-textarea variant="outlined" :counter="150" :rules="[rules.required, rules.maxLength(150)]" v-model="modelForm.description" label="Descripcion del producto"></v-textarea>
+                            <v-textarea prepend-inner-icon="mdi-text-box" variant="outlined" :counter="150" :rules="[rules.required, rules.maxLength(150)]" v-model="modelForm.description" label="Descripcion del producto"></v-textarea>
                             </v-col>
                             <v-col cols="12">
                               <v-file-input  :rules="[rules.required]" label="Subir Imagen Producto" ref="fileInput" v-model="modelForm.selectedFile" accept="image/*" variant="outlined"></v-file-input>

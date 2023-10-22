@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar color="transparent" title="Sales">
+    <v-toolbar color="transparent" title="Facturar">
       <v-spacer></v-spacer>
 
       <AdminDialogAddSales/>
