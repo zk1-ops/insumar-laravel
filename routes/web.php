@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\EmployeeController;
 
 
 /*****************************************************************************
@@ -34,6 +35,7 @@ Route::get('/admin', function() {
 })->name('login');
 
 
+
 Route::post('/xxxx', [ LoginController::class, 'test' ]); // Ejemplo !!! 
 /*****************************************************************************
 *                                                                            *
@@ -47,12 +49,16 @@ Route::get('/token', function () {
 Route::get('/GetProduct', [ProductController::class, 'index']);
 
 
+Route::post('/crearEmpleado', [EmployeeController::class, 'create']);
+Route::post('/actualizarEmpleado', [EmployeeController::class, 'update']);
+Route::post('/eliminarEmpleado', [EmployeeController::class, 'destroy']);
 /*****************************************************************************
 *                                                                            *
 *                            Metodos Post                                    *
 *                                                                            *
 ******************************************************************************/
 Route::post('/auth', [LoginController::class, 'login'])->name('auth');
+
 
 
 /*****************************************************************************
