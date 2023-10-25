@@ -29,8 +29,8 @@
         </router-link>
       </li>
 
-      <li>
-        <router-link :to="{ name: 'AdminUsers' }">
+      <li v-if="userData.idRol == 1">
+        <router-link :to="{ name: 'AdminEmployee' }">
         <a>
           <i class="zmdi zmdi-account"></i> <span>Empleados</span>
         </a>

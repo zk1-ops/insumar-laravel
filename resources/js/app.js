@@ -40,6 +40,7 @@ import AdminSidebar from './components/Admin/Sidebar.vue'
 import AdminDialogAddProductos from './components/Admin/AgregarProducto.vue'
 import AdminDialogAddProveedores from './components/Admin/AgregarProveedores.vue'
 import AdminDialogAddSales from './components/Admin/AgregarVentas.vue'
+import AdminDialogAddEmployees from './components/Admin/AgregarEmpleado.vue'
 
 const vuetify = createVuetify({
     components: {
@@ -55,7 +56,8 @@ const vuetify = createVuetify({
         AdminSidebar,
         AdminDialogAddProductos,
         AdminDialogAddProveedores,
-        AdminDialogAddSales
+        AdminDialogAddSales,
+        AdminDialogAddEmployees
     },
     directives,
 

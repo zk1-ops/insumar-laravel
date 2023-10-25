@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\models\Employee;
+use App\Models\Employee;
 use DB;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Role;
 
 class EmployeeController extends Controller
 {
@@ -43,5 +44,20 @@ class EmployeeController extends Controller
         $employee = Employee::find($request->id);
         $employee->delete();
         
+    }
+
+    public function getEmployee(Request $request) {
+        $data = DB::table('employees')
+                    ->join('roles', 'employees.idRol', '=', 'roles.id')
+                    ->select('employees.id', 'employees.idRol','employees.first_name', 'employees.last_name', 'employees.email', 'employees.created_at', 'roles.name')
+                    ->get();
+
+        return $data;
+    }
+
+    public function getRole(Request $request) {
+        $role = Role::all();
+
+        return $role;
     }
 }

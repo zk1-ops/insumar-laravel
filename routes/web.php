@@ -49,9 +49,7 @@ Route::get('/token', function () {
 Route::get('/GetProduct', [ProductController::class, 'index']);
 
 
-Route::post('/crearEmpleado', [EmployeeController::class, 'create']);
-Route::post('/actualizarEmpleado', [EmployeeController::class, 'update']);
-Route::post('/eliminarEmpleado', [EmployeeController::class, 'destroy']);
+
 /*****************************************************************************
 *                                                                            *
 *                            Metodos Post                                    *
@@ -84,6 +82,11 @@ Route::group(['middleware'=>['auth']],function(){
         Route::post('/actualizarProveedor', [SupplierController::class, 'update']);
         Route::post('/eliminarProveedor', [SupplierController::class, 'destroy']);
 
+        // Empleados
+        Route::post('/crearEmpleado', [EmployeeController::class, 'create']);
+        Route::post('/actualizarEmpleado', [EmployeeController::class, 'update']);
+        Route::post('/eliminarEmpleado', [EmployeeController::class, 'destroy']);
+
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout'); // SI EL USUARIO ESTA AUTENTICADO PUEDE CERRAR SESION
 
     /*****************************************************************************
@@ -98,7 +101,11 @@ Route::group(['middleware'=>['auth']],function(){
         // Proveedores
         Route::get('/admin/GetSuppliers', [SupplierController::class, 'index']);
         Route::get('/admin/countSupplier', [SupplierController::class, 'getCountSuppliers']);
+        // Empleados
+        Route::get('/admin/getEmployees', [EmployeeController::class, 'getEmployee']);
 
+        // Role
+        Route::get('/admin/Role', [EmployeeController::class, 'getRole']);
 
         // User
         Route::get('/admin/GetUser', [LoginController::class, 'dataUser']);
@@ -124,6 +131,11 @@ Route::group(['middleware'=>['auth']],function(){
         Route::get('/admin/sales', function() {
             return view('admin/app');
         })->name('sales');
+
+        Route::get('/admin/employees', function() {
+            return view('admin/app');
+        })->name('sales');
+
 
     
 });

@@ -10,7 +10,7 @@ import AdminProducts from './pages/Admin/Products.vue'
 import AdminDashboard from './pages/Admin/Dashboard.vue'
 import AdminSuppliers from './pages/Admin/Suppliers.vue'
 import AdminSales from './pages/Admin/Sales.vue'
-
+import AdminEmployees from './pages/Admin/Employees.vue'
 
 const routes = [
   {
@@ -68,6 +68,14 @@ const routes = [
     name: 'AdminSales',
     meta: {
        title: 'INSUMAR - Ventas'
+    }
+  },
+  {
+    path: '/admin/employees/',
+    component: AdminEmployees,
+    name: 'AdminEmployee',
+    meta: {
+        title: 'INSUMAR - Empleados'
     }
   }
 ];
