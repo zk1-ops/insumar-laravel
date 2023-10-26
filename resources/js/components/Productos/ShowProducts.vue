@@ -66,7 +66,6 @@
           <br>
           <v-img :src="selectedProduct.image" height="250" />
           <v-card-title class="text-center">{{ selectedProduct.name }}</v-card-title>
-          <v-card-subtitle class="text-center">Tipo de envase: {{ selectedProduct.envase }}</v-card-subtitle>
           <v-card-text class="text-center">{{ selectedProduct.description }}</v-card-text>
           
           <v-card-actions>

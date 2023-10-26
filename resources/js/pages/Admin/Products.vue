@@ -72,7 +72,7 @@
                           <v-row>
                             <v-col
                               cols="12"
-                              md="12"
+                              md="6"
                             >
                               <v-text-field
                                 v-model="modelForm.name"
@@ -88,17 +88,16 @@
 
                             <v-col
                               cols="12"
-                              md="12"
+                              md="6"
                             >
-                              <v-text-field
-                                v-model="modelForm.container"
-                                variant="outlined"
-                                prepend-inner-icon="mdi-semantic-web"
-                                label="Envase del producto"
-                                hide-details
-                                required
-                                :rules="[rules.required]"
-                              ></v-text-field>
+                            <v-select
+                              variant="outlined"
+                              v-model="modelForm.container"
+                              label="Escoge el envase del producto"
+                              prepend-inner-icon="mdi-semantic-web"
+                              :items="['Caja', 'Saco']"
+                              :rules="[rules.required]"
+                            ></v-select>
                             </v-col>
                             <v-col cols="12" md="4">
                             <v-text-field
