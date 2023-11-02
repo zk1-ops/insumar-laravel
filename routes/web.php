@@ -17,6 +17,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ClientController;
 
 
 /*****************************************************************************
@@ -35,6 +36,9 @@ Route::get('/admin', function() {
 })->name('login');
 
 
+Route::post('/crearCliente', [ClientController::class, 'create']);
+Route::post('/editarCliente', [ClientController::class, 'update']);
+Route::post('/eliminarCliente', [ClientController::class, 'destroy']);
 
 Route::post('/xxxx', [ LoginController::class, 'test' ]); // Ejemplo !!! 
 /*****************************************************************************
@@ -47,6 +51,8 @@ Route::get('/token', function () {
 });
 
 Route::get('/GetProduct', [ProductController::class, 'index']);
+
+
 
 
 
