@@ -14,9 +14,13 @@ return new class extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('id_client');
+            $table->unsignedBigInteger('id_employee');
             $table->integer('codeSale');
-            $table->integer('total_pay');
+            $table->timestamps();
+            $table->integer('total_pay')->default(0);
+            
             $table->foreign('id_client')->references('id')->on('clients');
+            $table->foreign('id_employee')->references('id')->on('employees');
         });
     }
 

@@ -22,6 +22,7 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $this->validateLogin($request);   
+        
 
        $exists = Employee::where('email', $request->email)
                      ->first();
@@ -33,7 +34,10 @@ class LoginController extends Controller
        $passwordHash = Hash::check($request->password, $exists->password);
 
        if(!$passwordHash) { Session::put('password_message', 'Contraseña incorrecta'); return redirect()->back(); }
-     
+
+
+       Session::forget('password_message'); // Si la passowrd existe, quitamos el mensaje de error 
+            
        Auth::login($exists);
        $request->session()->regenerate();
         

@@ -43,11 +43,11 @@
                 v-model="modelForm.container"
                 label="Escoge el envase del producto"
                 prepend-inner-icon="mdi-semantic-web"
-                :items="['Caja', 'Saco']"
+                :items="['Bandeja', 'Saco']"
                 :rules="[rules.required]"
               ></v-select>
               </v-col>
-              <v-col cols="12" md="3" >
+              <v-col cols="12" md="3">
               <v-text-field
                 v-model="modelForm.stock"
                 variant="outlined"
@@ -97,6 +97,7 @@
               <v-col cols="12">
                 <v-file-input  :rules="[rules.required]" label="Subir Imagen Producto" ref="fileInput" v-model="modelForm.selectedFile" accept="image/*" variant="outlined"></v-file-input>
               </v-col>
+            
             </v-row>
           </v-container>
           <v-card-actions>
@@ -109,7 +110,7 @@
   </v-row>
 </template>
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import axios from 'axios'
 import { rules } from '../../utils/input'
 import Swal from 'sweetalert2'
@@ -119,15 +120,18 @@ const dialogAddProd = ref(false)
 const modelForm = ref({
   name: '',
   description: '',
-  container: '',
+  container: 'Selecciona el tipo',
   stock: null,
   price: null,
   selectedFile: [],
   selectedProv: null
 })
 
+
+
 const arrayProductos = ref([])
 const arraySuppliers = ref([])
+
 
 function traerProductos() {
       axios.get('/admin/GetProductos')

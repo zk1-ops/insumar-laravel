@@ -1,45 +1,21 @@
 <template>
-  <v-toolbar color="transparent" title="Clientes">
-      <v-spacer></v-spacer>
-
-      <AdminDialogAddClient/>
-    </v-toolbar> <br>
-  <div class="table-responsive">
-               <table class="table">
-                  <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Nombre</th>
-                      <th scope="col">Razon Social</th>
-                      <th scope="col">Email</th>
-                      <th scope="col">Telefono</th>
-                      <th scope="col">Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(client, i) in arrayClients" :key="i">
-                      <th scope="row">{{ client.id  }}</th>
-                      <td>{{ client.first_name  }} {{ client.last_name  }}</td>
-                      <td>{{ client.business_name  }}</td>
-                      <td>{{ client.email   }}</td>
-                      <td>{{ client.phone  }}</td>
-                      <td>
-                            <v-btn icon="mdi-file" color="primary" size="x-small"></v-btn>
-                            <v-btn icon="mdi-pencil" class="ml-1" color="warning"  size="x-small" @click="openDialog(client)" />
-                            <v-btn icon="mdi-delete" class="ml-1" color="red" size="x-small"  @click="eliminarCliente(client)" />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-            </div>
-
-            <v-dialog
-       v-model="dialog"
-       width="auto"
-     >
-     <v-card color="#114b86">
-          <v-card-title style="color: white;">Modificando el empleado ({{ modelForm.first_name }} {{ modelForm.last_name }})</v-card-title>
-          <v-form style="color: white;" @submit.prevent="updateClient()">
+    <v-row justify="center">
+    <v-dialog
+      v-model="dialogAddClient"
+      persistent
+      width="auto"
+    >
+      <template v-slot:activator="{ props }">
+        <v-btn
+          v-bind="props"
+          color="secondary" variant="outlined"
+          >
+          Agregar cliente
+        </v-btn>
+      </template>
+      <v-card color="#114b86">      
+        <v-card-title style="color: white;">Creando un nuevo cliente</v-card-title>
+        <v-form style="color: white;" @submit.prevent="onCreate()">
           <v-container>
                 <v-row>
                     <v-col cols="12" md="6">
@@ -64,7 +40,6 @@
                     </v-col>
                     <v-col cols="12" md="6">
                         <v-select
-                            disabled
                             prepend-inner-icon="mdi-google-my-business"
                             variant="outlined"
                             v-model="modelForm.business_name"
@@ -75,7 +50,6 @@
                     </v-col>
                     <v-col cols="12" md="6">
                         <v-text-field
-                            disabled
                             v-model="modelForm.dni"
                             variant="outlined"
                             prepend-inner-icon="mdi-card-account-details"
@@ -127,31 +101,23 @@
                 </v-row>
           </v-container>
           <v-card-actions>
-            <v-btn color="red" @click="dialog = false">Cerrar</v-btn>
-            <v-btn variant="tonal" type="submit" color="success">Actualizar</v-btn>
+            <v-btn color="red" @click="dialogAddClient = false">Cerrar</v-btn>
+            <v-btn variant="tonal" type="submit" color="success">Crear</v-btn>
         </v-card-actions>
         </v-form>
-     </v-card>
+      </v-card>
     </v-dialog>
+  </v-row>
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { ref, onMounted } from 'vue'
 import { rules } from '../../utils/input'
 
-const arrayClients = ref([])
-
-const dialog = ref(false)
-
-function getClients() {
-  axios.get('/admin/GetClients').then((response) => {
-     arrayClients.value = response.data
-  })
-}
+const dialogAddClient = ref(false)
 
 const modelForm = ref({
-   id: null,
    first_name: '',
    last_name: '',
    business_name: '',
@@ -162,72 +128,21 @@ const modelForm = ref({
    address: ''
 })
 
-onMounted(() => {
-   getClients()
-})
+function onCreate() {
 
-function eliminarCliente(data) {
-
-    Swal.fire({
-    title: 'Estas seguro?',
-    text: "No puedes revertir esto !",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    cancelButtonText: 'Cancelar',
-    confirmButtonText: 'Si, eliminar !'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      axios.post('/eliminarCliente', { id: data.id }).then(function response(){
-          Swal.fire(
-          'Elimando !',
-          'El cliente ha sido eliminado con exito. !',
-          'success'
-        )
-
-        getClients()
-      }).catch(function (error) {
-        Swal.fire(
-                'Error !',
-                'El Cliente no puede ser eliminado ya que tiene facturas registradas.',
-                'error'
-          )
-      })
-    }
-  })
- 
-}
-
-function openDialog(data) {
-  dialog.value = true
-
-  modelForm.value.id = data.id
-  modelForm.value.first_name = data.first_name
-  modelForm.value.last_name = data.last_name
-  modelForm.value.email = data.email
-  modelForm.value.phone = data.phone
-  modelForm.value.dni = data.dni
-  modelForm.value.city = data.city
-  modelForm.value.address = data.address
-  modelForm.value.business_name = data.business_name
-
-  
-}
-
-function updateClient() {
-  axios.post('/editarCliente', modelForm.value).then((response) => {
+  axios.post('/crearCliente', modelForm.value).then((reponse) => {
     Swal.fire({
       position: 'top-end',
       icon: 'success',
-      title: 'Cliente actualizado con exito !',
+      title: 'Cliente agregado correctamente',
       showConfirmButton: false,
       timer: 1500
     })
 
-    dialog.value = false
-    getClients()
+    dialogAddClient.value = false
+    window.location.reload();
   })
+  
 }
 
 </script>

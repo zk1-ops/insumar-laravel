@@ -46,7 +46,7 @@
 					 <img src="{{ asset('assets/dashboard/images/logo-icon.png') }}" alt="logo icon">
 				 </div>
 			  <div class="card-title text-uppercase text-center py-3">Administra Insumar, Ingresa tus credenciales: </div>
-				<form method="POST" action="{{ route('auth') }}">
+				<form method="POST" action="{{ route('auth') }}" onsubmit="return validar()">
 					@csrf
 				  <div class="form-group">
 				  <label for="email" class="sr-only">Correo Electronico</label>
@@ -55,6 +55,12 @@
 					  <div class="form-control-position">
 						  <i class="icon-user"></i>
 					  </div>
+					  <p class="mt-1 text-danger" id="error_mail"></p>
+					  @if (Session::has('email_message'))
+					  	<div class="is-invalid mt-1 ml-2">
+							<p class="text-danger">{{ Session::get('email_message') }}</p>
+						</div>
+				  	  @endif
 				   </div>
 				  </div>
 				  <div class="form-group">
@@ -64,9 +70,15 @@
 					  <div class="form-control-position">
 						  <i class="icon-lock"></i>
 					  </div>
+					  <p class="mt-1 text-danger" id="error_password"></p>
+					  @if (Session::has('password_message'))
+					  <div class="is-invalid mt-1 ml-2">
+						<p class="text-danger">{{ Session::get('password_message') }}</p>
+					</div>
+					@endif
 				   </div>
 				  </div>
-				 	<button type="submit" class="btn btn-light btn-block">Iniciar Sesion</button>
+				 	<input type="submit" class="btn btn-light btn-block" value="Iniciar Sesion"/>
 				 </form>
 			   </div>
 			  </div>
@@ -85,6 +97,11 @@
 <script src="{{ asset('assets/dashboard/js/jquery.min.js') }}"></script>
 <script src="{{ asset('assets/dashboard/js/popper.min.js') }}"></script>
 <script src="{{ asset('assets/dashboard/js/bootstrap.min.js') }}"></script>
+
+
+<!-- Validacion -->
+
+<script src="{{ asset('assets/js/validation.js') }}"></script>
 
 <!-- simplebar js -->
 <script src="{{ asset('assets/dashboard/plugins/simplebar/js/simplebar.js') }}"></script>

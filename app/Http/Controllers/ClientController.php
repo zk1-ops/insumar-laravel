@@ -8,6 +8,14 @@ use App\Models\Client;
 
 class ClientController extends Controller
 {
+    public function index()
+    {
+        $data  = Client::all();
+        return $data;
+        
+    }
+
+
     public function create(Request $request)
     {
 
@@ -48,5 +56,13 @@ class ClientController extends Controller
         $client = Client::find($request->id);
         $client->delete();
     
+    }
+
+    public function getCountClient() {
+        $data  = Client::all();
+        
+        $dataCount = $data->count();
+
+        return $dataCount;
     }
 }

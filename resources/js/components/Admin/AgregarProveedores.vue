@@ -9,6 +9,7 @@
         <v-dialog
           v-model="dialog"
           activator="parent"
+          persistent
           width="auto"
         >
           <v-card color="#114b86">

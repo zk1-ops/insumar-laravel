@@ -11,11 +11,8 @@
                         <th scope="col">#</th>
                         <th scope="col"></th>
                         <th scope="col">Nombre</th>
-                        <th scope="col">Descripcion</th>
-                        <th scope="col">Envase</th>
                         <th scope="col">Precio producto</th>
                         <th scope="col">Mostrar Producto</th>
-                        <th scope="col">Stock</th>
                         <th scope="col">Acción</th>
                       </tr>
                     </thead>
@@ -25,18 +22,6 @@
                         <th scope="row">{{ data.id }}</th>
                         <td><v-img :src="data.image" :width="90"></v-img></td>
                         <td>{{data.name}}</td>
-                        <td>
-                          <v-textarea 
-                          disabled
-                          rows="1"
-                          row-height="15" 
-                          variant="filled" 
-                          auto-grow 
-                          bg-color="amber-lighten-4"
-                          :model-value="data.description">
-                        </v-textarea>
-                      </td>
-                        <td>{{data.container}}</td>
                         <td>{{data.price.toLocaleString('es-CL') }}</td>
                         <td>
                           <v-switch
@@ -48,9 +33,9 @@
                             @change.stop="guardarDatos(data.id, data.show_product)"
                           ></v-switch>
                         </td>
-                        <td>{{  data.stock  }}</td>
                         <td>
-                            <v-btn icon="mdi-pencil" color="warning"  size="x-small" @click="openDialog(data)" />
+                            <v-btn icon="mdi-file" color="primary" size="x-small"></v-btn>
+                            <v-btn icon="mdi-pencil" class="ml-1" color="warning"  size="x-small" @click="openDialog(data)" />
                             <v-btn icon="mdi-delete" class="ml-1" color="red" size="x-small"  @click="eliminarProductos(data)" />
                         </td>
                       </tr>
@@ -243,7 +228,13 @@
               'success'
             )
               traerProductos()
-            })  
+            }).catch(function (error) {
+              Swal.fire(
+                'Error !',
+                'El producto no puede ser eliminado ya que tiene cajas registradas.',
+                'error'
+              )
+            }) 
           }
       })
             
@@ -280,7 +271,7 @@
       })
         traerProductos()
         dialog.value = false
-    })
+      })
   }
 
 async function guardarDatos(id,status) {

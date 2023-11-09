@@ -18,7 +18,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ClientController;
-
+use App\Http\Controllers\SaleController;
 
 /*****************************************************************************
 *                                                                            *
@@ -36,9 +36,6 @@ Route::get('/admin', function() {
 })->name('login');
 
 
-Route::post('/crearCliente', [ClientController::class, 'create']);
-Route::post('/editarCliente', [ClientController::class, 'update']);
-Route::post('/eliminarCliente', [ClientController::class, 'destroy']);
 
 Route::post('/xxxx', [ LoginController::class, 'test' ]); // Ejemplo !!! 
 /*****************************************************************************
@@ -51,7 +48,6 @@ Route::get('/token', function () {
 });
 
 Route::get('/GetProduct', [ProductController::class, 'index']);
-
 
 
 
@@ -93,6 +89,17 @@ Route::group(['middleware'=>['auth']],function(){
         Route::post('/actualizarEmpleado', [EmployeeController::class, 'update']);
         Route::post('/eliminarEmpleado', [EmployeeController::class, 'destroy']);
 
+        // Clientes
+        Route::post('/crearCliente', [ClientController::class, 'create']);
+        Route::post('/editarCliente', [ClientController::class, 'update']);
+        Route::post('/eliminarCliente', [ClientController::class, 'destroy']);
+
+        // Ventas
+        Route::post('/crearVenta', [ SaleController::class, 'create'] );
+        Route::post('/eliminarVenta', [ SaleController::class, 'delete' ]);
+
+
+
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout'); // SI EL USUARIO ESTA AUTENTICADO PUEDE CERRAR SESION
 
     /*****************************************************************************
@@ -115,6 +122,14 @@ Route::group(['middleware'=>['auth']],function(){
 
         // User
         Route::get('/admin/GetUser', [LoginController::class, 'dataUser']);
+        // Cliente
+        Route::get('/admin/GetClients', [ ClientController::class, 'index' ]);
+        Route::get('/admin/countClient', [ ClientController::class, 'getCountClient' ]);
+
+        // Ventas
+        Route::get('/getSales', [ SaleController::class, 'index' ]);
+        Route::get('/admin/countSale', [ SaleController::class, 'getCountSale' ]);
+
 
         
     /*****************************************************************************
@@ -142,6 +157,8 @@ Route::group(['middleware'=>['auth']],function(){
             return view('admin/app');
         })->name('sales');
 
-
+        Route::get('/admin/users', function() {
+            return view('admin/app');
+        })->name('sales');
     
 });

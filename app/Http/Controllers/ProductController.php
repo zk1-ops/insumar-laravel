@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\File;
 
 use App\Models\Product;
 use App\Models\Supplier;
+use App\Models\Box;
 
 class ProductController extends Controller
 {
@@ -77,31 +78,71 @@ class ProductController extends Controller
 
     public function create(Request $request)
     {
-        $imagen = $request->file('imagen');
+       $imagen = $request->file('imagen');
 
-        if ($imagen) {
-            // Si se proporciona una imagen, guarda la imagen en el almacenamiento y obtén su URL
-            $nombreImagen = uniqid('imagenInsumar_') . '.' . $imagen->getClientOriginalExtension();
+       if ($imagen) {
+           // Si se proporciona una imagen, guarda la imagen en el almacenamiento y obtén su URL
+           $nombreImagen = uniqid('imagenInsumar_') . '.' . $imagen->getClientOriginalExtension();
     
-            Storage::disk('public')->put('/images/product/' . $nombreImagen, file_get_contents($imagen));
+           Storage::disk('public')->put('/images/product/' . $nombreImagen, file_get_contents($imagen));
     
-            $urlImagen = Storage::url('images/product/' . $nombreImagen);
-        } 
+           $urlImagen = Storage::url('images/product/' . $nombreImagen);
+       } 
+      
+    
+      if( $request->container == 'Caja'  ) {
 
+                $productos = Product::create([
+                    'id_supplier' =>request('id_supplier'),
+                    'name' =>request('nombre'),
+                    'description' =>request('description'),
+                    'container'=>request('container'),
+                    'price'=>request('price'),
+                    'image' => $urlImagen,
+                    'fecha_ingreso' => now()
+                ]);
+        
+            $boxAdd = json_decode($request->boxAdd);
+        
+            if(is_array($boxAdd)) {
+        
+                foreach ($boxAdd as $item) {
+                    $box = new Box();
+                    $box->id_product = $productos->id;
+                    $box->weight = $item->unidad;
+                    $box->expiration_date = $item->expiration_date;
+        
+                    $box->save();
+                }  
+        
+            }
+            
+            // Obtener la cantidad total de cajas asociadas a este producto
+            $cantidadCajas = Box::where('id_product', $productos->id)->count();
+        
+            // Actualizar el campo 'stock' del producto con la cantidad total de cajas
+            $productos->update([
+                'stock' => $cantidadCajas
+            ]);
 
-        $productos = Product::create([
-            'id_supplier' =>request('id_supplier'),
-            'name' =>request('nombre'),
-            'description' =>request('description'),
-            'container'=>request('container'),
-            'stock' => request('stock'),
-            'price'=>request('price'),
-            'image' => $urlImagen,
-            'created_at' => now()
-        ]);
-    }
+      }else {
 
-    public function saveStatus(Request $request)
+            $productos = Product::create([
+                'id_supplier' =>request('id_supplier'),
+                'name' =>request('nombre'),
+                'description' =>request('description'),
+                'container'=>request('container'),
+                'stock' => request('stock'),
+                'price'=>request('price'),
+                'image' => $urlImagen,
+                'created_at' => now()
+            ]);
+
+      }
+
+}
+
+public function saveStatus(Request $request)
     {
         $id = $request->id;
         $status = $request->status;

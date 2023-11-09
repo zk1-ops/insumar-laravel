@@ -17,7 +17,6 @@ import '@mdi/font/css/materialdesignicons.css';
 
 
 
-
 // Componentes
 import AppBar from './components/AppBar.vue'
 import Footer from './components/Footer.vue'
@@ -41,6 +40,7 @@ import AdminDialogAddProductos from './components/Admin/AgregarProducto.vue'
 import AdminDialogAddProveedores from './components/Admin/AgregarProveedores.vue'
 import AdminDialogAddSales from './components/Admin/AgregarVentas.vue'
 import AdminDialogAddEmployees from './components/Admin/AgregarEmpleado.vue'
+import AdminDialogAddClient from './components/Admin/AgregarCliente.vue'
 
 const vuetify = createVuetify({
     components: {
@@ -57,7 +57,8 @@ const vuetify = createVuetify({
         AdminDialogAddProductos,
         AdminDialogAddProveedores,
         AdminDialogAddSales,
-        AdminDialogAddEmployees
+        AdminDialogAddEmployees,
+        AdminDialogAddClient,
     },
     directives,
 

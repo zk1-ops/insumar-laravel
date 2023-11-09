@@ -25,8 +25,8 @@
                         <td>{{  emp.name  }}</td>
                         <td>{{  emp.created_at }}</td>
                         <td>
-                          <v-btn icon="mdi-pencil" color="warning"  size="x-small" @click="openModal(emp)" />
-                          <v-btn icon="mdi-delete" class="ml-1" color="red" size="x-small" @click="deleteEmploye(emp.id)" />
+                          <v-btn :disabled="emp.id == userData.id ? true : false" icon="mdi-pencil" color="warning"  size="x-small" @click="openModal(emp)" />
+                          <v-btn :disabled="emp.id == userData.id ? true : false" icon="mdi-delete" class="ml-1" color="red" size="x-small" @click="deleteEmploye(emp.id)" />
                         </td>
                       </tr>
                     </tbody>
@@ -126,6 +126,8 @@ const modelForm = ref({
 
 const dialog = ref(false)
 
+const userData = ref({})
+
 function getEmployee() {
   axios.get('/admin/getEmployees')
           .then((response) => {
@@ -139,31 +141,45 @@ onMounted( () => {
   axios.get('/admin/Role').then((response) => {
       arrayRoles.value = response.data
   })   
+
+  axios.get('/admin/GetUser')
+          .then((response) => {
+            userData.value = response.data                               
+   })
 })
 
 
 function deleteEmploye(id) {
-    Swal.fire({
-    title: 'Estas seguro de eliminar este empleado?',
-    text: "No puedes revertir esto!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Si, eliminar'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      axios.post('/eliminarEmpleado', { id }).then((response) => {
-          Swal.fire(
-          'Eliminado!',
-          'Has eliminado correctamente al empleado',
-          'success'
-        )
 
-        getEmployee()
-      })
-    }
-  })
+
+      Swal.fire({
+      title: 'Estas seguro de eliminar este empleado?',
+      text: "No puedes revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.post('/eliminarEmpleado', { id })
+        .then((response) => {
+            Swal.fire(
+            'Eliminado!',
+            'Has eliminado correctamente al empleado',
+            'success'
+          )
+
+          getEmployee()
+        }).catch(function (error) {
+              Swal.fire(
+                'Error !',
+                'El empleado no pudo ser eliminado ya que tiene ventas asociadas a la cuenta.',
+                'error'
+              )
+            })
+      }
+    })
 }
 
 function openModal(data) {
@@ -182,7 +198,7 @@ function updateEmploye() {
     Swal.fire({
       position: 'top-end',
       icon: 'success',
-      title: 'Your work has been saved',
+      title: 'Empleado actualizado con exito !',
       showConfirmButton: false,
       timer: 1500
     })

@@ -29,6 +29,7 @@
         </router-link>
       </li>
 
+      <li class="sidebar-header">ADMINISTRACIÓN DE CUENTAS</li>
       <li v-if="userData.idRol == 1">
         <router-link :to="{ name: 'AdminEmployee' }">
         <a>
@@ -44,7 +45,7 @@
         </a>
       </router-link>
       </li>
-
+      <li class="sidebar-header">GESTION DE INVENTARIO</li>
       <li>
         <router-link :to="{ name: 'AdminSuppliers' }">
         <a>
