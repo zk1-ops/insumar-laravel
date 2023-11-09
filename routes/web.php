@@ -19,6 +19,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\ContactMailController;
 
 /*****************************************************************************
 *                                                                            *
@@ -58,6 +59,7 @@ Route::get('/GetProduct', [ProductController::class, 'index']);
 *                                                                            *
 ******************************************************************************/
 Route::post('/auth', [LoginController::class, 'login'])->name('auth');
+Route::get('/enviarForm', [ ContactMailController::class, 'enviar' ]);
 
 
 
