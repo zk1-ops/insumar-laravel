@@ -59,7 +59,7 @@ Route::get('/GetProduct', [ProductController::class, 'index']);
 *                                                                            *
 ******************************************************************************/
 Route::post('/auth', [LoginController::class, 'login'])->name('auth');
-Route::get('/enviarForm', [ ContactMailController::class, 'enviar' ]);
+Route::post('/enviarForm', [ ContactMailController::class, 'enviar' ]);
 
 
 

@@ -13,18 +13,41 @@ class ContactFormReceived extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct(public $data)
+    public $data;
+    /**
+     * Create a new message instance.
+     */
+    public function __construct($data)
     {
-        // No es necesario asignar las propiedades aquí, se manejan automáticamente con las propiedades públicas
+        //
+        $this->data = $data;
     }
 
-    public function build()
+    /**
+     * Get the message envelope.
+     */
+    public function envelope(): Envelope
     {
-        return $this->subject('Mensaje enviado desde formulario')
-                    ->view('email_contact')
-                    ->with(['data' => $this->data]);
+        return new Envelope(
+            subject: 'Formulario de contacto INSUMAR',
+        );
     }
 
+    /**
+     * Get the message content definition.
+     */
+    public function content(): Content
+    {
+        return new Content(
+            view: 'mails.email_contact',
+        );
+    }
+
+    /**
+     * Get the attachments for the message.
+     *
+     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     */
     public function attachments(): array
     {
         return [];

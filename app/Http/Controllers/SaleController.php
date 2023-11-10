@@ -22,7 +22,8 @@ class SaleController extends Controller
             $sale = Sale::create([
                 'id_client' => $request->id_client,
                 'id_employee' => $request->id_employee,
-                'codeSale' =>  rand()
+                'codeSale' =>  rand(),
+                'created_at' => now()
             ]);
             
             $productosVendidos = $request->input('productos');

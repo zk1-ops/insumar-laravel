@@ -7,13 +7,13 @@
 </head>
 <body>
     
-    <p>Hola! {{ $data['nameEmployee'] }} {{ $data['lastNameEmployee'] }} este es un mensaje automatico del formulario de insumar.</p>
+    <p>Hola! <strong>{{ $data['nameEmployee'] }} {{ $data['lastNameEmployee'] }}</strong> este es un mensaje automatico del formulario de insumar.</p>
     <p>Estos son los datos de contacto del usuario:</p>
     <ul>
         <li>Nombre: {{ $data['name'] }}</li>
         <li>Teléfono: {{ $data['phone'] }}</li>
         <li>E-mail de contacto: {{ $data['email_contact'] }}</li>
+        <li>Mensaje: {{ $data['message'] }}</li>
     </ul>
-    <p>Mensaje: {{ $data['message'] }}</p>
 </body>
 </html>
