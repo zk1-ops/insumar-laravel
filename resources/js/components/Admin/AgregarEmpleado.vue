@@ -109,6 +109,12 @@ onMounted(() => {
 })
 
 function onCreate() {
+  if (!modelForm.value.first_name || 
+  !modelForm.value.last_name ||
+  !modelForm.value.email ||
+  !modelForm.value.password ||
+  !modelForm.value.idRol) 
+  { return false}
 
   axios.post('/crearEmpleado', modelForm.value).then((reponse) => {
     Swal.fire({

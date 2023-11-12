@@ -34,7 +34,7 @@
                           ></v-switch>
                         </td>
                         <td>
-                            <v-btn icon="mdi-file" color="primary" size="x-small"></v-btn>
+                            <v-btn icon="mdi-file" color="primary" size="x-small" @click="openDetails(data)"></v-btn>
                             <v-btn icon="mdi-pencil" class="ml-1" color="warning"  size="x-small" @click="openDialog(data)" />
                             <v-btn icon="mdi-delete" class="ml-1" color="red" size="x-small"  @click="eliminarProductos(data)" />
                         </td>
@@ -45,6 +45,86 @@
                   <v-col cols="12">
                     <v-pagination prev-icon="mdi-menu-left" next-icon="mdi-menu-right" v-model="current" :length="totalPages"></v-pagination>
                   </v-col>
+
+                <v-dialog
+                    v-model="details"
+                    width="auto"
+                >
+                <v-card
+                  color="#114b86" 
+                  class="pa-5"
+                >
+                  <v-card-title style="color: white;">Nombre del producto: {{ modelForm.name }}</v-card-title>
+                    <v-list
+                      :lines="false"
+                      density="compact"
+                      nav
+                      style="background: transparent; color: white;"
+                    >
+                      <v-list-item
+                        color="primary"
+                        value="1"
+                        :title="`Envase: ${modelForm.container}`"
+                      >
+                          <template v-slot:prepend>
+                              <v-icon icon="mdi-semantic-web"></v-icon>
+                          </template>
+                      </v-list-item>
+
+                      <v-list-item
+                        color="primary"
+                        value="2"
+                        :title="`Cantidad disponible: ${modelForm.stock}`"
+                      >
+                          <template v-slot:prepend>
+                              <v-icon icon="mdi-stocking"></v-icon>
+                          </template>
+                      </v-list-item>
+
+                      <v-list-item
+                        color="primary"
+                        value="3"
+                        :title="`Proveedor: ${modelForm.selectedProv}`"
+                      >
+                          <template v-slot:prepend>
+                              <v-icon icon="mdi-account-group"></v-icon>
+                          </template>
+                      </v-list-item>
+
+                      <v-list-item
+                        color="primary"
+                        value="3"
+                        :title="`Precio: ${modelForm.price}`"
+                      >
+                          <template v-slot:prepend>
+                              <v-icon icon="mdi-currency-usd"></v-icon>
+                          </template>
+                      </v-list-item>
+
+                      <v-list-item
+                        color="primary"
+                        value="3"
+                        :title="`Descripcion: ${modelForm.description}`"
+                      >
+                          <template v-slot:prepend>
+                              <v-icon icon="mdi-text-box"></v-icon>
+                          </template>
+                      </v-list-item>
+
+
+                  </v-list>
+                  <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                          color="red"
+                          variant="text"
+                          @click="details = false"
+                        >
+                          Cerrar
+                        </v-btn>
+                      </v-card-actions>
+                </v-card>
+                </v-dialog>
 
                 <v-dialog
                     v-model="dialog"
@@ -157,6 +237,7 @@
 
     const arrayProductos = ref([])
     const dialog = ref(false)
+    const details = ref(false)
     const valid = ref('')
 
     const arraySuppliers = ref([])
@@ -296,6 +377,25 @@ function openDialog(data) {
   modelForm.value.price = data.price
 
   modelForm.value.selectedProv = data.id_supplier
+}
+
+function openDetails(data) {
+
+  const supplier = arraySuppliers.value.filter((supplier => supplier.id == data.id_supplier))
+  
+
+  details.value = true
+  modelForm.value.id = data.id
+  modelForm.value.name = data.name
+  modelForm.value.description = data.description
+  modelForm.value.stock = data.stock
+  modelForm.value.container = data.container
+  modelForm.value.price = data.price
+
+  modelForm.value.selectedProv = supplier[0].contact_mail
+
+
+ 
 }
 
 

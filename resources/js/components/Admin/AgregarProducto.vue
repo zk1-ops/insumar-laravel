@@ -155,6 +155,14 @@ onMounted(async () => {
 
 function onCreate() {
   // Crea un objeto FormData y agrega el archivo seleccionado
+  if( !modelForm.value.name ||
+    !modelForm.value.description ||
+    !modelForm.value.container ||
+    !modelForm.value.stock || 
+    !modelForm.value.price || 
+    !modelForm.value.selectedFile || 
+    !modelForm.value.selectedProv) 
+    {  return false; }
 
   const formData = new FormData();
   formData.append('nombre', modelForm.value.name);

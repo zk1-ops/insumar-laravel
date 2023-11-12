@@ -134,6 +134,16 @@ const modelForm = ref({
 })
 
 function onCreate() {
+  if (!modelForm.value.business_name ||
+  !modelForm.value.dni ||
+  !modelForm.value.contact_person ||
+  !modelForm.value.contact_mail ||
+  !modelForm.value.contact_phone ||
+  !modelForm.value.city ||
+  !modelForm.value.address) 
+  {return false}
+
+
   axios.post('/agregarProveedor', modelForm.value).then((response) => {
     Swal.fire({
           position: 'top-end',

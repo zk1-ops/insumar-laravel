@@ -24,7 +24,7 @@
                       <td>{{ client.email   }}</td>
                       <td>{{ client.phone  }}</td>
                       <td>
-                            <v-btn icon="mdi-file" color="primary" size="x-small"></v-btn>
+                            <v-btn icon="mdi-file" class="m-1" color="primary" size="x-small" @click="openDetails(client)" />
                             <v-btn icon="mdi-pencil" class="ml-1" color="warning"  size="x-small" @click="openDialog(client)" />
                             <v-btn icon="mdi-delete" class="ml-1" color="red" size="x-small"  @click="eliminarCliente(client)" />
                       </td>
@@ -32,6 +32,87 @@
                   </tbody>
                 </table>
             </div>
+
+            <v-dialog
+                    v-model="details"
+                    width="auto"
+                >
+                <v-card
+                  color="#114b86" 
+                  class="pa-5"
+                >
+                  <v-card-title style="color: white;">Nombre del cliente: {{ modelForm.first_name }} {{ modelForm.last_name }}</v-card-title>
+                    <v-list
+                      :lines="false"
+                      density="compact"
+                      nav
+                      style="background: transparent; color: white;"
+                    >
+                      <v-list-item
+                        color="primary"
+                        value="1"
+                        :title="`RUT: ${modelForm.dni}`"
+                      >
+                          <template v-slot:prepend>
+                              <v-icon icon="mdi-card-account-details"></v-icon>
+                          </template>
+                      </v-list-item>
+
+                      <v-list-item
+                        color="primary"
+                        value="2"
+                        :title="`Correo electrónico: ${modelForm.email}`"
+                      >
+                          <template v-slot:prepend>
+                              <v-icon icon="mdi-email"></v-icon>
+                          </template>
+                      </v-list-item>
+
+                      <v-list-item
+                        color="primary"
+                        value="3"
+                        :title="`Contacto: ${modelForm.phone}`"
+                      >
+                          <template v-slot:prepend>
+                              <v-icon icon="mdi-phone"></v-icon>
+                          </template>
+                      </v-list-item>
+
+                      <v-list-item
+                        color="primary"
+                        value="3"
+                        :title="`Ciudad: ${modelForm.city}`"
+                      >
+                          <template v-slot:prepend>
+                              <v-icon icon="mdi-city"></v-icon>
+                          </template>
+                      </v-list-item>
+
+                      <v-list-item
+                        color="primary"
+                        value="3"
+                        :title="`Dirección: ${modelForm.address}`"
+                      >
+                          <template v-slot:prepend>
+                              <v-icon icon="mdi-map-marker"></v-icon>
+                          </template>
+                      </v-list-item>
+
+
+                  </v-list>
+                  <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                          color="red"
+                          variant="text"
+                          @click="details = false"
+                        >
+                          Cerrar
+                        </v-btn>
+                      </v-card-actions>
+                </v-card>
+                </v-dialog>
+
 
             <v-dialog
        v-model="dialog"
@@ -144,6 +225,8 @@ const arrayClients = ref([])
 
 const dialog = ref(false)
 
+const details = ref(false)
+
 function getClients() {
   axios.get('/admin/GetClients').then((response) => {
      arrayClients.value = response.data
@@ -213,6 +296,22 @@ function openDialog(data) {
   modelForm.value.business_name = data.business_name
 
   
+}
+
+function openDetails(data) {
+  details.value = true
+
+  modelForm.value.id = data.id
+  modelForm.value.first_name = data.first_name
+  modelForm.value.last_name = data.last_name
+  modelForm.value.email = data.email
+  modelForm.value.phone = data.phone
+  modelForm.value.dni = data.dni
+  modelForm.value.city = data.city
+  modelForm.value.address = data.address
+  modelForm.value.business_name = data.business_name
+
+
 }
 
 function updateClient() {
