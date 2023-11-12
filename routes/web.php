@@ -131,6 +131,7 @@ Route::group(['middleware'=>['auth']],function(){
         // Ventas
         Route::get('/getSales', [ SaleController::class, 'index' ]);
         Route::get('/admin/countSale', [ SaleController::class, 'getCountSale' ]);
+        Route::get('/getItems/{id}', [ SaleController::class, 'viewItem' ]);
 
 
         

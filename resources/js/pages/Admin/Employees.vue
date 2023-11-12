@@ -23,9 +23,9 @@
                         <td>{{  emp.first_name  }} {{ emp.last_name  }}</td>
                         <td>{{  emp.email  }}</td>
                         <td>{{  emp.name  }}</td>
-                        <td>{{  emp.created_at }}</td>
+                        <td>{{ moment(emp.created_at).format('LL') }}</td>
                         <td>
-                          <v-btn :disabled="emp.id == userData.id ? true : false" icon="mdi-pencil" color="warning"  size="x-small" @click="openModal(emp)" />
+                          <v-btn icon="mdi-pencil" color="warning"  size="x-small" @click="openModal(emp)" />
                           <v-btn :disabled="emp.id == userData.id ? true : false" icon="mdi-delete" class="ml-1" color="red" size="x-small" @click="deleteEmploye(emp.id)" />
                         </td>
                       </tr>
@@ -110,6 +110,8 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import Swal from 'sweetalert2';
 import { rules } from '../../utils/input'
+import moment from 'moment/moment';
+import 'moment/locale/es';
 
 const arrayRoles = ref([])
 const arrayEmpleados = ref([])

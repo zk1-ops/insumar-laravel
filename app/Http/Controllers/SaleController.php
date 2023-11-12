@@ -88,11 +88,29 @@ class SaleController extends Controller
       $sale->delete();
    }
 
-   public function getCountSale() {
-    $data  = Sale::all();
-    
-    $dataCount = $data->count();
+    public function getCountSale() {
+        $data  = Sale::all();
+        
+        $dataCount = $data->count();
 
-    return $dataCount;
-}
+        return $dataCount;
+    }
+
+    public function viewItem(string $id) {
+        $sales = DB::table('sales')
+                 ->join('clients', 'clients.id', '=', 'sales.id_client')
+                 ->join('employees', 'employees.id', '=', 'sales.id_employee')
+                 ->select('sales.id','sales.codeSale', 'sales.total_pay', 'sales.created_at', 'clients.first_name as name_client', 'clients.last_name as last_client', 'employees.first_name', 'employees.last_name')
+                 ->where('sales.id', $id)
+                 ->first();
+
+        $items = DB::table('items')
+                ->join('products', 'products.id', '=', 'items.id_prod')
+                ->select('items.quantity', 'products.name', 'products.container', 'products.price')
+                ->where('items.id_sale', $sales->id)
+                ->get(); // Ejecutar la consulta y obtener los resultados
+                
+
+        return $items;
+   }
 }
