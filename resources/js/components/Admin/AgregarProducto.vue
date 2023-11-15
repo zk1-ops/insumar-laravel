@@ -33,7 +33,6 @@
                   :rules="[rules.required]"
                 ></v-text-field>
               </v-col>
-
               <v-col
                 cols="12"
                 md="6"
@@ -94,7 +93,13 @@
               >
               <v-textarea prepend-inner-icon="mdi-text-box" variant="outlined" :counter="150" :rules="[rules.required, rules.maxLength(150)]" v-model="modelForm.description" label="Descripcion del producto"></v-textarea>
               </v-col>
-              <v-col cols="12">
+              <v-col
+                cols="12"
+                md="4"
+              > 
+                  <v-text-field :rules="[rules.required]" v-model="modelForm.selectedDate" type="date" label="Date"></v-text-field>
+              </v-col>
+              <v-col cols="12" md="6">
                 <v-file-input  :rules="[rules.required]" label="Subir Imagen Producto" ref="fileInput" v-model="modelForm.selectedFile" accept="image/*" variant="outlined"></v-file-input>
               </v-col>
             
@@ -124,7 +129,8 @@ const modelForm = ref({
   stock: null,
   price: null,
   selectedFile: [],
-  selectedProv: null
+  selectedProv: null,
+  selectedDate: null
 })
 
 
@@ -161,7 +167,7 @@ function onCreate() {
     !modelForm.value.stock || 
     !modelForm.value.price || 
     !modelForm.value.selectedFile || 
-    !modelForm.value.selectedProv) 
+    !modelForm.value.selectedProv || !modelForm.value.selectedDate) 
     {  return false; }
 
   const formData = new FormData();
@@ -172,6 +178,7 @@ function onCreate() {
   formData.append('price', modelForm.value.price);
   formData.append('imagen', modelForm.value.selectedFile[0]);
   formData.append('id_supplier', modelForm.value.selectedProv);
+  formData.append('fecha_vencimiento', modelForm.value.selectedDate);
 
 
  axios.post('/agregarProducto', formData, {

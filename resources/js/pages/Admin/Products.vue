@@ -12,6 +12,7 @@
                         <th scope="col"></th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Precio producto</th>
+                        <th scope="col">Fecha de Expiración</th>
                         <th scope="col">Mostrar Producto</th>
                         <th scope="col">Acción</th>
                       </tr>
@@ -23,6 +24,7 @@
                         <td><v-img :src="data.image" :width="90"></v-img></td>
                         <td>{{data.name}}</td>
                         <td>{{data.price.toLocaleString('es-CL') }}</td>
+                        <td>{{moment(modelForm.selectedDate).format('LL')}}</td>
                         <td>
                           <v-switch
                             v-model="data.show_product"
@@ -93,7 +95,7 @@
 
                       <v-list-item
                         color="primary"
-                        value="3"
+                        value="4"
                         :title="`Precio: ${modelForm.price}`"
                       >
                           <template v-slot:prepend>
@@ -103,11 +105,21 @@
 
                       <v-list-item
                         color="primary"
-                        value="3"
+                        value="5"
                         :title="`Descripcion: ${modelForm.description}`"
                       >
                           <template v-slot:prepend>
                               <v-icon icon="mdi-text-box"></v-icon>
+                          </template>
+                      </v-list-item>
+
+                      <v-list-item
+                        color="primary"
+                        value="5"
+                        :title="`Fecha vencimiento: ${moment(modelForm.selectedDate).format('LL')}`"
+                      >
+                          <template v-slot:prepend>
+                              <v-icon icon="mdi-calendar-range"></v-icon>
                           </template>
                       </v-list-item>
 
@@ -211,7 +223,13 @@
                             >
                             <v-textarea prepend-inner-icon="mdi-text-box" variant="outlined" :counter="150" :rules="[rules.required, rules.maxLength(150)]" v-model="modelForm.description" label="Descripcion del producto"></v-textarea>
                             </v-col>
-                            <v-col cols="12">
+                            <v-col
+                              cols="12"
+                              md="4"
+                            > 
+                                <v-text-field :rules="[rules.required]" v-model="modelForm.selectedDate" type="date" label="Date"></v-text-field>
+                            </v-col>
+                            <v-col cols="12" md="6">
                               <v-file-input  :rules="[rules.required]" label="Subir Imagen Producto" ref="fileInput" v-model="modelForm.selectedFile" accept="image/*" variant="outlined"></v-file-input>
                             </v-col>
                           </v-row>
@@ -231,6 +249,8 @@
     import axios from 'axios'
     import Swal from 'sweetalert2'
     import { rules } from '../../utils/input'
+    import moment from 'moment';
+    import 'moment/locale/es';
 
     const current = ref(1) // Página actual, inicialmente establecida en 1
     const pageSize = 10 // Tamaño de página deseado
@@ -251,9 +271,11 @@
        price: '',
        selectedFile: [],
        selectedProv: null,
+       selectedDate: null,
     })
 
     function traerProductos() {
+      moment.updateLocale('es', { invalidDate: 'No aplica' })
       axios.get('/admin/GetProductos')
           .then((response) => {
               arrayProductos.value = response.data
@@ -331,7 +353,8 @@
     formData.append('stock', modelForm.value.stock);
     formData.append('price', modelForm.value.price);
     formData.append('id_supplier', modelForm.value.selectedProv);
-    
+    formData.append('fecha_vencimiento', modelForm.value.selectedDate);
+
     // Verifica si se ha seleccionado una nueva imagen
     if (modelForm.value.selectedFile[0]) {
       formData.append('imagen', modelForm.value.selectedFile[0]);
@@ -377,6 +400,7 @@ function openDialog(data) {
   modelForm.value.price = data.price
 
   modelForm.value.selectedProv = data.id_supplier
+  modelForm.value.selectedDate = data.fecha_vencimiento
 }
 
 function openDetails(data) {
@@ -393,7 +417,7 @@ function openDetails(data) {
   modelForm.value.price = data.price
 
   modelForm.value.selectedProv = supplier[0].contact_mail
-
+  modelForm.value.selectedDate = data.fecha_vencimiento
 
  
 }

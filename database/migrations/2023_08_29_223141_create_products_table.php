@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('price');
             $table->boolean('show_product')->default(true);
             $table->date('fecha_ingreso')->default(now());
+            $table->date('fecha_vencimiento');
 
             $table->foreign('id_supplier')->references('id')->on('suppliers');
 
@@ -37,7 +38,8 @@ return new class extends Migration
                 'stock' => 50,
                 'container' => 'Bandeja',
                 'image' => '/storage/images/product/camaron3640.jpg',
-                'price' => 3
+                'price' => 3,
+                'fecha_vencimiento' => '2023-12-30'
             ],
             [
                 'id' => 2,
@@ -47,7 +49,8 @@ return new class extends Migration
                 'stock' => 50,
                 'container' => 'Bandeja',
                 'image' => '/storage/images/product/salmonfilete.jpg',
-                'price' => 3
+                'price' => 3,
+                'fecha_vencimiento' => '2023-12-30'
             ],
             [
                 'id' => 3,
@@ -57,7 +60,8 @@ return new class extends Migration
                 'stock' => 50,
                 'container' => 'Bandeja',
                 'image' => '/storage/images/product/camaron100150.jpg',
-                'price' => 3
+                'price' => 3,
+                'fecha_vencimiento' => '2023-12-30'
             ],
             [
                 'id' => 4,
@@ -67,7 +71,8 @@ return new class extends Migration
                 'stock' => 50,
                 'container' => 'Bandeja',
                 'image' => 'https://aperitivo.cl/wp-content/uploads/2020/07/REINETA-OK-WEB.jpg',
-                'price' => 3
+                'price' => 3,
+                'fecha_vencimiento' => '2023-12-30'
             ],
             [
                 'id' => 5,
@@ -77,7 +82,8 @@ return new class extends Migration
                 'stock' => 50,
                 'container' => 'Bandeja',
                 'image' => 'https://www.hogarmania.com/archivos/202207/filetear-merluza-1-668x400x80xX-1.jpg',
-                'price' => 3
+                'price' => 3,
+                'fecha_vencimiento' => '2023-12-30'
             ],
             [
                 'id' => 6,
@@ -87,17 +93,8 @@ return new class extends Migration
                 'stock' => 50,
                 'container' => 'Bandeja',
                 'image' => 'https://todobaratotc.cl/wp-content/uploads/2020/10/10.png',
-                'price' => 3
-            ],
-            [
-                'id' => 7,
-                'id_supplier' => 2,
-                'name' => 'Queso crema',
-                'description' => 'Este es el queso crema. Es un queso cremoso y delicioso, perfecto para untar en tus comidas favoritas.',
-                'stock' => 50,
-                'container' => 'Bandeja',
-                'image' => '/storage/images/product/quesocrema.jpg',
-                'price' => 3
+                'price' => 3,
+                'fecha_vencimiento' => '2023-12-30'
             ],
             // Agrega más registros aquí
         ]);

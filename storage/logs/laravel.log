@@ -4776,3 +4776,26 @@
 #64 C:\\Users\\56937\\Documents\\GitHub\\insumar-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\Users\\\\56937\\\\...')
 #65 {main}
 "} 
+[2023-11-15 16:07:14] local.ERROR: syntax error, unexpected token "=>" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"=>\" at C:\\Users\\Cristobal Rybertt\\Documents\\GitHub\\insumar-laravel\\database\\migrations\\2023_08_29_223141_create_products_table.php:24)
+[stacktrace]
+#0 C:\\Users\\Cristobal Rybertt\\Documents\\GitHub\\insumar-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(150): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#1 C:\\Users\\Cristobal Rybertt\\Documents\\GitHub\\insumar-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(574): Illuminate\\Filesystem\\Filesystem->requireOnce('C:\\\\Users\\\\Cristo...')
+#2 C:\\Users\\Cristobal Rybertt\\Documents\\GitHub\\insumar-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(117): Illuminate\\Database\\Migrations\\Migrator->requireFiles(Array)
+#3 C:\\Users\\Cristobal Rybertt\\Documents\\GitHub\\insumar-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\MigrateCommand.php(92): Illuminate\\Database\\Migrations\\Migrator->run(Array, Array)
+#4 C:\\Users\\Cristobal Rybertt\\Documents\\GitHub\\insumar-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(633): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->Illuminate\\Database\\Console\\Migrations\\{closure}()
+#5 C:\\Users\\Cristobal Rybertt\\Documents\\GitHub\\insumar-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\MigrateCommand.php(104): Illuminate\\Database\\Migrations\\Migrator->usingConnection(NULL, Object(Closure))
+#6 C:\\Users\\Cristobal Rybertt\\Documents\\GitHub\\insumar-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->handle()
+#7 C:\\Users\\Cristobal Rybertt\\Documents\\GitHub\\insumar-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#8 C:\\Users\\Cristobal Rybertt\\Documents\\GitHub\\insumar-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#9 C:\\Users\\Cristobal Rybertt\\Documents\\GitHub\\insumar-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(37): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
+#10 C:\\Users\\Cristobal Rybertt\\Documents\\GitHub\\insumar-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
+#11 C:\\Users\\Cristobal Rybertt\\Documents\\GitHub\\insumar-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(211): Illuminate\\Container\\Container->call(Array)
+#12 C:\\Users\\Cristobal Rybertt\\Documents\\GitHub\\insumar-laravel\\vendor\\symfony\\console\\Command\\Command.php(326): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#13 C:\\Users\\Cristobal Rybertt\\Documents\\GitHub\\insumar-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(181): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#14 C:\\Users\\Cristobal Rybertt\\Documents\\GitHub\\insumar-laravel\\vendor\\symfony\\console\\Application.php(1081): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#15 C:\\Users\\Cristobal Rybertt\\Documents\\GitHub\\insumar-laravel\\vendor\\symfony\\console\\Application.php(320): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Database\\Console\\Migrations\\MigrateCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#16 C:\\Users\\Cristobal Rybertt\\Documents\\GitHub\\insumar-laravel\\vendor\\symfony\\console\\Application.php(174): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#17 C:\\Users\\Cristobal Rybertt\\Documents\\GitHub\\insumar-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#18 C:\\Users\\Cristobal Rybertt\\Documents\\GitHub\\insumar-laravel\\artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#19 {main}
+"} 

@@ -22,6 +22,7 @@ class Product extends Model
         'price',
         'image',
         'show_product',
-        'fecha_ingreso'
+        'fecha_ingreso',
+        'fecha_vencimiento'
     ];
 }
