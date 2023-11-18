@@ -35,7 +35,7 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->stock = $request->stock;
         $product->price = $request->price;
-        $product->fecha_vencimiento = $request->fecha_vencimiento;
+        $product->expiration_date = $request->fecha_vencimiento;
 
         // Buscamos el proveedor para llevarlo a la interfaz
 
@@ -100,8 +100,8 @@ class ProductController extends Controller
                     'container'=>request('container'),
                     'price'=>request('price'),
                     'image' => $urlImagen,
-                    'fecha_ingreso' => now(),
-                    'fecha_vencimiento' => request('fecha_vencimiento')
+                    'created_at' => now(),
+                    'expiration_date' => request('fecha_vencimiento')
                 ]);
         
             $boxAdd = json_decode($request->boxAdd);
@@ -137,8 +137,8 @@ class ProductController extends Controller
                 'stock' => request('stock'),
                 'price'=>request('price'),
                 'image' => $urlImagen,
-                'fecha_ingreso' => now(),
-                'fecha_vencimiento' => request('fecha_vencimiento')
+                'created_at' => now(),
+                'expiration_date' => request('fecha_vencimiento')
             ]);
 
       }

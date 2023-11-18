@@ -54,6 +54,7 @@
                             variant="outlined"
                             prepend-inner-icon="mdi-card-account-details"
                             label="RUT"
+                            @input="formatRut"
                             :rules="[rules.required]"
                         >
                         </v-text-field>
@@ -74,7 +75,7 @@
                     prepend-inner-icon="mdi-phone"
                     variant="outlined"
                     label="Telefono de contacto"
-                    :rules="[rules.required]"
+                    :rules="[rules.required, rules.isNumber]"
                   >
                 </v-text-field>
                 </v-col>
@@ -114,6 +115,9 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { ref, onMounted } from 'vue'
 import { rules } from '../../utils/input'
+import {  validate, clean, format, getCheckDigit } from 'rut.js'
+
+
 
 const dialogAddClient = ref(false)
 
@@ -130,6 +134,33 @@ const modelForm = ref({
 
 function onCreate() {
 
+  const rutValidado = formatRut()
+
+  if (!modelForm.value.first_name||
+  !modelForm.value.last_name ||
+  !modelForm.value.business_name||
+  !modelForm.value.dni ||
+  !modelForm.value.email ||
+  !modelForm.value.phone ||
+  !modelForm.value.city || !modelForm.value.address) 
+  {return false}
+
+  if(!/^\d+$/.test(modelForm.value.phone)) { return false; }
+
+  if(!validate(rutValidado)) {
+    Swal.fire({
+      position: "top-end",
+      icon: "error",
+      title: "Ingresa un RUT Valido",
+      showConfirmButton: false,
+      timer: 1500
+});
+     return false;
+  }
+
+  modelForm.value.dni = rutValidado
+  
+
   axios.post('/crearCliente', modelForm.value).then((reponse) => {
     Swal.fire({
       position: 'top-end',
@@ -143,6 +174,12 @@ function onCreate() {
     window.location.reload();
   })
   
+}
+
+function formatRut() {
+  const cleanedRut = format(modelForm.value.dni)
+  
+  return cleanedRut;
 }
 
 </script>

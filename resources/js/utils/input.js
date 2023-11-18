@@ -6,6 +6,6 @@ export const rules = {
   password: x => v => v === x || 'La contraseña de confirmación debe coincidir con la escrita en el campo anterior',
   isString: v => !/\d/.test(v) || 'Este campo no admite números',
   notBlank: v => !!v.trim() || 'Este campo no puede estar en blanco',
-  isNumber: v => /^\d+$/.test(v) || 'Este campo debe contener solo números'
+  isNumber: v => /^\d+$/.test(v) || 'Este campo debe contener solo números',
 
 }
