@@ -251,7 +251,7 @@ const paginatedSales = computed(() => {
 function deleteSale(id) {
     Swal.fire({
     title: "Estas seguro de eliminar esta venta?",
-    html: "You won't be able to revert this!",
+    html: "Esta acción no se puede revertir!",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
