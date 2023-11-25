@@ -100,6 +100,10 @@ Route::group(['middleware'=>['auth']],function(){
         Route::post('/crearVenta', [ SaleController::class, 'create'] );
         Route::post('/eliminarVenta', [ SaleController::class, 'delete' ]);
 
+        // Mail Statuws
+        Route::post('/mail/updateStatus', [ContactMailController::class, 'updateStatus' ]);
+        Route::post('/mail/deleteMail', [ContactMailController::class, 'deleteMail' ]);
+
 
 
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout'); // SI EL USUARIO ESTA AUTENTICADO PUEDE CERRAR SESION
@@ -132,6 +136,11 @@ Route::group(['middleware'=>['auth']],function(){
         Route::get('/getSales', [ SaleController::class, 'index' ]);
         Route::get('/admin/countSale', [ SaleController::class, 'getCountSale' ]);
         Route::get('/getItems/{id}', [ SaleController::class, 'viewItem' ]);
+
+        // Mail 
+
+        Route::get('/email/GetMail', [ ContactMailController::class, 'getEmail' ]);
+
 
 
         

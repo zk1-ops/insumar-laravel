@@ -72,6 +72,7 @@
       <li><a href="javaScript:void();" @click="logout"><i class="zmdi zmdi-close text-danger"></i> <span>Cerrar sesion</span></a></li>
 
     </ul>
+
    
    </div>
    <!--End sidebar-wrapper-->
@@ -88,6 +89,7 @@ onMounted(() => {
           .then((response) => {
             userData.value = response.data                               
    })
+   
 }) 
 
 function logout() {
