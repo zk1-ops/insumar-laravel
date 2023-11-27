@@ -12,7 +12,7 @@
                         <th scope="col"></th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Precio producto</th>
-                        <th scope="col">Fecha de Expiración</th>
+                        <th scope="col">Fecha de Vencimiento</th>
                         <th scope="col">Mostrar Producto</th>
                         <th scope="col">Acción</th>
                       </tr>
@@ -24,7 +24,7 @@
                         <td><v-img :src="data.image" :width="90"></v-img></td>
                         <td>{{data.name}}</td>
                         <td>{{data.price.toLocaleString('es-CL') }}</td>
-                        <td>{{moment(modelForm.selectedDate).format('LL')}}</td>
+                        <td>{{moment(data.expiration_date).format('LL')}}</td>
                         <td>
                           <v-switch
                             v-model="data.show_product"
@@ -345,6 +345,14 @@
 
   function actualizarProducto() {    
 
+    // Obtener la fecha actual
+    var today = new Date();
+    // Establecer la fecha actual sin la parte de la hora, minutos, segundos y milisegundos
+    today.setHours(0, 0, 0, 0);
+
+    var selectedDate = new Date(modelForm.value.selectedDate);
+
+
     const formData = new FormData();
     formData.append('id', modelForm.value.id); // Asegúrate de incluir el ID del producto
     formData.append('name', modelForm.value.name);
@@ -358,6 +366,19 @@
     // Verifica si se ha seleccionado una nueva imagen
     if (modelForm.value.selectedFile[0]) {
       formData.append('imagen', modelForm.value.selectedFile[0]);
+    }
+
+    // verificamos la fecha de vencimiento
+    if (selectedDate <= today) {
+      Swal.fire({
+        icon: 'info',
+        title: 'Fecha de vencimiento incorrecta',
+        text: 'No puedes agregar una fecha de vencimiento con fecha actual o anterior',
+        showConfirmButton: true,
+      })
+        dialog.value = false
+       
+       return false
     }
 
     

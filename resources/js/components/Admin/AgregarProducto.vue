@@ -160,6 +160,14 @@ onMounted(async () => {
 
 
 function onCreate() {
+
+    // Obtener la fecha actual
+      var today = new Date();
+    // Establecer la fecha actual sin la parte de la hora, minutos, segundos y milisegundos
+    today.setHours(0, 0, 0, 0);
+
+    var selectedDate = new Date(modelForm.value.selectedDate);
+
   // Crea un objeto FormData y agrega el archivo seleccionado
   if( !modelForm.value.name ||
     !modelForm.value.description ||
@@ -179,6 +187,20 @@ function onCreate() {
   formData.append('imagen', modelForm.value.selectedFile[0]);
   formData.append('id_supplier', modelForm.value.selectedProv);
   formData.append('fecha_vencimiento', modelForm.value.selectedDate);
+
+   // verificamos la fecha de vencimiento
+   if (selectedDate <= today) {
+      Swal.fire({
+        icon: 'info',
+        title: 'Fecha de vencimiento incorrecta',
+        text: 'No puedes agregar una fecha de vencimiento con fecha actual o anterior',
+        showConfirmButton: true,
+      })
+        dialogAddProd.value = false
+       
+       return false
+    }
+
 
 
  axios.post('/agregarProducto', formData, {
