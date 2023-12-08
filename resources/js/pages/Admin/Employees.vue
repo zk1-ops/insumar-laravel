@@ -196,6 +196,7 @@ function openModal(data) {
 }
 
 function updateEmploye() {
+  if(modelForm.value.password == ""){return false};
   axios.post('/actualizarEmpleado', modelForm.value).then((response) => {
     Swal.fire({
       position: 'top-end',
